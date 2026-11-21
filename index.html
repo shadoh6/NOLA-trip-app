@@ -1,0 +1,1017 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>NOLA trip picks</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚜️</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  --bg:#EEF1F4; --surface:#FFFFFF; --ink:#1C2433; --muted:#5B6578; --line:#D5DBE3;
+  --cobalt:#1D4E9E; --tile:#FBFCFD; --tile-ink:#1D4E9E; --grout:#C9D0D9;
+  --up:#2E7D4F; --upbg:#E2F1E7; --side:#9A6210; --sidebg:#F6EAD5;
+  --down:#B3362B; --downbg:#F8E0DC; --star:#9C7400; --starbg:#FAEFC6;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#121722; --surface:#1B2230; --ink:#E7EBF1; --muted:#9BA5B6; --line:#2C3546;
+    --cobalt:#86A9EA; --tile:#E9EEF5; --tile-ink:#1D4E9E; --grout:#3A4558;
+    --up:#7CCB98; --upbg:#1E3628; --side:#E2B05C; --sidebg:#3A2D17;
+    --down:#F0897D; --downbg:#3D201D; --star:#F0C94A; --starbg:#3A3214;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#121722; --surface:#1B2230; --ink:#E7EBF1; --muted:#9BA5B6; --line:#2C3546;
+  --cobalt:#86A9EA; --tile:#E9EEF5; --tile-ink:#1D4E9E; --grout:#3A4558;
+  --up:#7CCB98; --upbg:#1E3628; --side:#E2B05C; --sidebg:#3A2D17;
+  --down:#F0897D; --downbg:#3D201D; --star:#F0C94A; --starbg:#3A3214;
+  color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Archivo",-apple-system,"PingFang SC","Hiragino Sans GB","Noto Sans SC","Microsoft YaHei",system-ui,sans-serif;
+  font-size:16px;line-height:1.45;-webkit-text-size-adjust:100%}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+button,input,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--cobalt);outline-offset:2px}
+.wrap{max-width:640px;margin:0 auto;padding:0 14px}
+
+/* Sidewalk street-name tiles */
+.tiles{display:flex;flex-wrap:wrap;gap:2px;padding:2px;background:var(--grout);border-radius:3px;width:max-content;max-width:100%}
+.tiles span{display:grid;place-items:center;width:1.55em;height:1.55em;background:var(--tile);color:var(--tile-ink);
+  font-weight:800;border-radius:1px;box-shadow:inset 0 0 0 2px var(--tile),inset 0 0 0 3px var(--tile-ink)}
+.tiles span.gap{background:transparent;box-shadow:none;width:.6em}
+.tiles.big{font-size:22px}
+.tiles.sec{font-size:15px}
+
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding:10px 0 8px;border-bottom:1px solid var(--line)}
+.row1{display:flex;align-items:center;gap:10px}
+.brand{display:flex;align-items:center;gap:10px;flex:1;min-width:0}
+.brand small{color:var(--muted);font-size:13px;line-height:1.25}
+.chip{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 12px;font-size:14px;font-weight:600;white-space:nowrap}
+.tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin-top:10px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:3px}
+.tabs button{border:0;background:transparent;border-radius:7px;padding:8px 2px;font-size:14px;font-weight:600;color:var(--muted)}
+.tabs button[aria-selected="true"]{background:var(--cobalt);color:var(--surface)}
+:root[data-theme="dark"] .tabs button[aria-selected="true"]{color:#121722}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .tabs button[aria-selected="true"]{color:#121722}}
+
+.status{font-size:13px;color:var(--muted);padding:8px 0 0;display:flex;gap:6px;align-items:flex-start}
+.status .dot{width:8px;height:8px;border-radius:50%;margin-top:6px;flex:none;background:var(--muted)}
+.status.sync .dot{background:var(--up)}
+.status.local .dot,.status.stale .dot{background:var(--side)}
+
+main{padding:14px 0 40px}
+.sechead{margin:6px 0 4px}
+.sub{color:var(--muted);font-size:14px;margin:8px 0 2px}
+.toolbar{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:12px 0 10px;font-size:14px;color:var(--muted)}
+.toggle{display:flex;align-items:center;gap:6px;font-weight:600;color:var(--ink)}
+.toggle input{width:18px;height:18px;accent-color:var(--cobalt)}
+
+.item{background:var(--surface);border:1px solid var(--line);border-left:5px solid var(--line);border-radius:10px;padding:13px 14px 12px;margin:0 0 10px}
+.item.v1{border-left-color:var(--up)}
+.item.v0{border-left-color:var(--side)}
+.item.vm{border-left-color:var(--down)}
+.item h3{margin:0;font-size:17px;line-height:1.3;font-weight:800}
+.meta{display:flex;flex-wrap:wrap;gap:5px;margin:7px 0 0}
+.pill{font-size:12.5px;padding:2px 8px;border-radius:999px;background:var(--bg);color:var(--muted);font-weight:500}
+.pill.tag{background:var(--starbg);color:var(--star);font-weight:600}
+.desc{margin:8px 0 10px;font-size:15px;max-width:62ch}
+.acts{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.votes{display:flex;gap:6px}
+.vb,.sb{border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:7px 10px;font-size:14px;font-weight:600;display:inline-flex;align-items:center;gap:5px;min-height:38px}
+.vb .e,.sb .e{font-size:17px;line-height:1}
+.side{display:inline-block;transform:rotate(-90deg)}
+.vb[data-v="1"][aria-pressed="true"]{background:var(--upbg);border-color:var(--up);color:var(--up)}
+.vb[data-v="0"][aria-pressed="true"]{background:var(--sidebg);border-color:var(--side);color:var(--side)}
+.vb[data-v="-1"][aria-pressed="true"]{background:var(--downbg);border-color:var(--down);color:var(--down)}
+.sb[aria-pressed="true"]{background:var(--starbg);border-color:var(--star);color:var(--star)}
+.note{width:100%;margin-top:9px;border:1px solid var(--line);background:var(--bg);border-radius:8px;padding:8px 10px;font-size:14.5px}
+.foot{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-top:9px;font-size:13.5px}
+.others{color:var(--muted);display:flex;flex-direction:column;gap:3px;min-width:0}
+.others b{color:var(--ink);font-weight:600}
+.map{color:var(--cobalt);font-weight:600;text-decoration:none;white-space:nowrap}
+.map:hover{text-decoration:underline}
+.mk{font-weight:700}
+.mk.up{color:var(--up)} .mk.side{color:var(--side)} .mk.down{color:var(--down)} .mk.star{color:var(--star)}
+
+.gal{display:flex;gap:6px;overflow-x:auto;scroll-snap-type:x mandatory;margin:0 0 10px;-webkit-overflow-scrolling:touch}
+.ph{flex:0 0 86%;scroll-snap-align:start;position:relative;border:0;padding:0;background:var(--bg);border-radius:8px;overflow:hidden;aspect-ratio:4/3}
+.ph img{width:100%;height:100%;object-fit:cover;display:block}
+.cr{position:absolute;left:6px;bottom:6px;background:rgba(0,0,0,.6);color:#fff;font-size:11px;padding:2px 6px;border-radius:4px;max-width:92%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.addp{border:1px dashed var(--line);background:var(--bg);color:var(--cobalt);border-radius:8px;padding:10px 12px;font-weight:600;font-size:14px}
+.addp.tile{flex:0 0 32%;scroll-snap-align:start}
+.nophoto{margin:0 0 10px}
+.swipe{font-size:12.5px;color:var(--muted);margin:-4px 0 8px}
+.say{font-size:13.5px;color:var(--muted);margin:6px 0 0}
+.say b{font-weight:600}
+.sec h4{margin:11px 0 2px;font-size:13.5px;font-weight:700;color:var(--cobalt)}
+.sec p{margin:0;font-size:15px;max-width:62ch}
+.item .links{margin-top:12px}
+#zoom{position:fixed;inset:0;z-index:30;background:rgba(8,10,14,.94);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:calc(16px + env(safe-area-inset-top,0px)) 12px calc(16px + env(safe-area-inset-bottom,0px))}
+#zoom[hidden]{display:none}
+#zoom .zsingle{max-width:100%;max-height:72vh;object-fit:contain;border-radius:6px;display:block}
+#zoom .zsp{width:min(96vw,calc(72vh * 4 / 3));aspect-ratio:4/3;overflow:hidden;border-radius:6px;position:relative}
+#zoom .zsp img,.ph img.spr{position:absolute;left:0;top:0;height:100%;max-width:none;object-fit:fill;display:block}
+#zBox{cursor:zoom-out}
+#zoom .zc{color:#E7EBF1;font-size:13.5px;margin-top:10px;text-align:center;max-width:60ch}
+#zoom .zc a{color:#9CC2FF}
+#zoom .zn{display:flex;gap:10px;margin-top:12px}
+#zoom .zn button{border:1px solid #4a5468;background:#1B2230;color:#E7EBF1;border-radius:10px;padding:9px 16px;font-weight:600}
+#toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:9px 16px;border-radius:999px;font-size:14px;z-index:40}
+#toast[hidden]{display:none}
+.links{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:0 0 12px}
+.links a{display:flex;flex-direction:column;align-items:center;gap:2px;padding:7px 2px;border:1px solid var(--line);border-radius:8px;text-decoration:none;color:var(--cobalt);font-weight:600;font-size:12.5px;text-align:center;line-height:1.2}
+.links a .i{font-size:18px;line-height:1}
+.links a.cur{border:2px solid var(--cobalt);background:var(--bg)}
+.links a:hover{background:var(--bg)}
+.empty{padding:28px 6px;text-align:center;color:var(--muted)}
+.legend{font-size:13px;color:var(--muted);margin-top:18px}
+
+.res h2{font-size:18px;margin:22px 0 8px;font-weight:800}
+.res .line{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:9px 12px;margin-bottom:6px;font-size:14.5px}
+.res .line .who{color:var(--muted);font-size:13.5px;margin-top:2px}
+.prog{display:flex;flex-direction:column;gap:6px}
+.bar{height:6px;background:var(--line);border-radius:4px;overflow:hidden;margin-top:4px}
+.bar i{display:block;height:100%;background:var(--cobalt)}
+.primary{border:0;background:var(--cobalt);color:var(--surface);border-radius:10px;padding:12px 16px;font-weight:800;font-size:15px;width:100%}
+:root[data-theme="dark"] .primary{color:#121722}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .primary{color:#121722}}
+.export{width:100%;min-height:220px;margin-top:10px;border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:10px;font-size:13px;line-height:1.4}
+.copied{color:var(--up);font-weight:600;font-size:14px;margin-top:6px;min-height:1.2em}
+
+.sheet{position:fixed;inset:0;z-index:20;background:rgba(12,16,24,.55);display:flex;align-items:flex-end;justify-content:center}
+.sheet[hidden]{display:none}
+.panel{background:var(--surface);width:100%;max-width:520px;border-radius:16px 16px 0 0;padding:22px 18px calc(22px + env(safe-area-inset-bottom,0px))}
+.panel h2{margin:0 0 4px;font-size:20px;font-weight:800}
+.panel p{margin:0 0 14px;color:var(--muted);font-size:14.5px}
+.whos{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.whos button{border:1px solid var(--line);background:var(--bg);border-radius:10px;padding:14px 6px;font-weight:800;font-size:16px}
+.other{display:flex;gap:8px;margin-top:10px}
+.other input{flex:1;min-width:0;border:1px solid var(--line);background:var(--bg);border-radius:10px;padding:10px 12px}
+.other button{border:0;background:var(--cobalt);color:var(--surface);border-radius:10px;padding:10px 14px;font-weight:700}
+@media (prefers-reduced-motion: no-preference){ .panel{animation:up .22s ease-out} @keyframes up{from{transform:translateY(24px);opacity:.6}to{transform:none;opacity:1}} }
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <div class="row1">
+      <div class="brand">
+        <div class="tiles big" aria-label="NOLA"><span>N</span><span>O</span><span>L</span><span>A</span></div>
+        <small id="tagline"></small>
+      </div>
+      <button class="chip" id="langBtn"></button>
+      <button class="chip" id="whoBtn"></button>
+    </div>
+    <div class="tabs" role="tablist" id="tabs"></div>
+    <div class="status" id="status"><span class="dot"></span><span id="statusText"></span></div>
+  </div>
+</header>
+<main class="wrap" id="main"></main>
+
+<input type="file" accept="image/*" id="fileIn" hidden>
+<div id="zoom" hidden role="dialog" aria-modal="true"><div id="zBox"></div><div class="zc" id="zCap"></div><div class="zn"><button id="zPrev">‹</button><button id="zClose"></button><button id="zNext">›</button></div></div>
+<div id="toast" hidden aria-live="polite"></div>
+<div class="sheet" id="sheet" hidden>
+  <div class="panel" role="dialog" aria-modal="true" aria-labelledby="sheetTitle">
+    <h2 id="sheetTitle"></h2>
+    <p id="sheetSub"></p>
+    <div class="whos" id="whos"></div>
+    <div class="other">
+      <input id="otherName" maxlength="24">
+      <button id="otherGo"></button>
+    </div>
+  </div>
+</div>
+
+<script>
+// [id, section, category, price 0-3, time, name_en, name_zh, desc_en, desc_zh, map query, tag]
+const ITEMS = [
+["r1","r","food",1,"30 min","Billy’s Boudin & Cracklin (Scott)","比利猪肉米肠店（斯科特镇）","Cajun pork-and-rice sausage, fried boudin balls and crunchy cracklins. The classic first stop off I-10.","卡津风味猪肉米肠、炸米肠球和脆猪皮，是 I-10 路上的经典第一站。","Billy's Boudin and Cracklin Scott LA"],
+["r2","r","food",1,"45 min","Cajun smokehouse lunch (Johnson’s Boucanière, Lafayette)","卡津烟熏肉午餐（拉斐特）","Smoked sausage, boudin and brisket sandwiches from a family smokehouse downtown.","拉斐特市中心家族烟熏铺的烟熏香肠、米肠和牛胸肉三明治。","Johnson's Boucaniere Lafayette LA"],
+["r3","r","nature",0,"1 hr","Lake Martin & Cypress Island Preserve (Breaux Bridge)","马丁湖与柏树岛保护区（布罗布里奇）","Cypress swamp with herons, egrets and waterfowl, seen from a short boardwalk and the lakeside. The big nesting rookery runs January to June and some levee trails are closed, so November is a quieter visit.","柏树沼泽，可在短木栈道和湖边观赏苍鹭、白鹭和水鸟。大规模筑巢季在1月至6月，部分堤岸步道目前关闭，11月去会比较安静。","Cypress Island Preserve Visitor Center St. Martinville LA"],
+["r4","r","nature",2,"2 hr","Atchafalaya Basin swamp boat tour (Henderson)","阿查法拉亚盆地沼泽游船（亨德森）","Boat tour through America’s largest river swamp, launching right off I-10.","乘船游览美国最大的河流沼泽，出发点紧邻 I-10。","McGee's Landing Henderson LA"],
+["r5","r","museum",0,"30 min","Atchafalaya Welcome Center","阿查法拉亚游客中心","Free exhibits on the basin’s wildlife and Cajun culture, and a good break on the 18-mile swamp bridge.","免费展览介绍沼泽野生动物和卡津文化，也是跨越18英里沼泽大桥途中的好休息点。","Atchafalaya Welcome Center Butte La Rose LA"],
+["r6","r","museum",1,"2 hr","Vermilionville living history village (Lafayette)","维米利恩维尔历史村（拉斐特）","Costumed artisans, old Cajun and Creole homes along a bayou, and live music some days.","穿传统服饰的工匠、河湾边的卡津和克里奥尔老房子，部分日子有现场音乐。","Vermilionville Lafayette LA"],
+["r7","r","sight",2,"2–3 hr","Avery Island: Tabasco tour & Jungle Gardens","艾弗里岛：塔巴斯科辣酱工厂与丛林花园","See how Tabasco is made and taste odd flavors, then drive through gardens with egrets and gators. About 30 min south of I-10.","参观塔巴斯科辣酱的制作并试吃各种口味，再开车游览有白鹭和鳄鱼的花园。距 I-10 约30分钟。","Tabasco Factory Avery Island LA"],
+["r8","r","sight",0,"1 hr","Louisiana State Capitol (Baton Rouge)","路易斯安那州议会大厦（巴吞鲁日）","The tallest state capitol in the US, with a free observation deck on the 27th floor.","全美最高的州议会大厦，27楼有免费观景台。","Louisiana State Capitol Baton Rouge"],
+["r9","r","sight",0,"1 hr","LSU campus & Mike the Tiger (Baton Rouge)","路易斯安那州立大学与老虎迈克","Big SEC campus with a live tiger habitat beside Tiger Stadium. An easy stretch-your-legs stop.","大型名校校园，老虎体育场旁有真老虎栖息地，适合下车走走。","Mike the Tiger Habitat Baton Rouge"],
+["r10","r","museum",1,"1–2 hr","USS Kidd Veterans Museum (Baton Rouge)","基德号驱逐舰博物馆（巴吞鲁日）","Climb through a WWII destroyer docked on the Mississippi.","登上停泊在密西西比河上的二战驱逐舰，参观舰内各处。","USS Kidd Veterans Museum Baton Rouge"],
+
+["n1","n","food",1,"30 min","Café du Monde beignets","世界咖啡馆法式甜甜圈","Powdered-sugar beignets and chicory café au lait. Go early or late to skip the line.","撒满糖粉的法式甜甜圈配菊苣牛奶咖啡。早去或晚去可以避开排队。","Cafe du Monde French Market New Orleans"],
+["n2","n","sight",0,"1 hr","Jackson Square & St. Louis Cathedral","杰克逊广场与圣路易斯大教堂","The heart of the French Quarter, with street artists, musicians and the city’s iconic cathedral.","法国区的中心，街头画家和音乐人云集，还有城市地标大教堂。","Jackson Square New Orleans"],
+["n3","n","sight",0,"1 hr","French Market","法国市场","Open-air stalls for snacks, crafts and souvenirs along the river.","沿河的露天市场，有小吃、手工艺品和纪念品。","French Market New Orleans"],
+["n4","n","food",1,"30 min","Muffuletta sandwich","意式橄榄沙拉三明治（Muffuletta）","A giant round sandwich of Italian meats, cheese and olive salad, born in the Quarter. One feeds two.","法国区发明的巨型圆面包三明治，夹意式肉类、奶酪和橄榄沙拉，一个够两人吃。","Central Grocery New Orleans"],
+["n5","n","museum",2,"4–5 hr","National WWII Museum","国家二战博物馆","One of the best museums in the country. Plan a half day; the 4D film is worth adding.","全美顶尖博物馆之一，建议安排半天，4D电影值得加购。","National WWII Museum New Orleans"],
+["n6","n","music",2,"1 hr","Preservation Hall jazz","保存厅爵士乐","Intimate, no-frills traditional jazz in a centuries-old room. All ages; book ahead.","在有百年历史的老屋里欣赏原汁原味的传统爵士乐，不限年龄，需提前订票。","Preservation Hall New Orleans"],
+["n7","n","music",1,"2–3 hr","Frenchmen Street live music","法国人街现场音乐","Where locals go for jazz, brass and blues. Some clubs are 21+ at night, so pick all-ages spots or go early.","本地人听爵士、铜管乐和蓝调的街区。部分酒吧晚上限21岁以上，可选不限年龄的场所或早点去。","Frenchmen Street New Orleans"],
+["n8","n","music",0,"30 min","Bourbon Street at night","波本街夜景","Loud, neon and rowdy. Worth one walk-through to see it, not a place to linger.","喧闹、霓虹闪烁，值得走一趟看看，但不必久留。","Bourbon Street New Orleans"],
+["n9","n","tour",1,"1–2 hr","St. Charles streetcar ride","圣查尔斯有轨电车","Ride the oldest operating streetcar line in the world past mansions under live oaks. Day passes are cheap.","乘坐世界上仍在运营的最古老有轨电车线路，穿过橡树林荫下的豪宅区，一日票很便宜。","St. Charles Streetcar New Orleans"],
+["n10","n","sight",0,"1–2 hr","Garden District walk","花园区漫步","Self-guided stroll past grand 1800s homes and gardens. Pairs well with the streetcar.","自助漫步欣赏19世纪的豪宅与花园，可与有轨电车行程搭配。","Garden District New Orleans"],
+["n11","n","sight",0,"2 hr","Magazine Street shops & cafés","杂志街小店与咖啡馆","Miles of local shops, vintage stores, cafés and casual restaurants.","绵延数英里的本地小店、古着店、咖啡馆和休闲餐厅。","Magazine Street New Orleans"],
+["n12","n","nature",2,"3 hr","Audubon Zoo","奥杜邦动物园","Well-loved zoo with a Louisiana swamp exhibit and a big jaguar habitat.","深受喜爱的动物园，有路易斯安那沼泽展区和大型美洲豹园区。","Audubon Zoo New Orleans"],
+["n13","n","museum",2,"2–3 hr","Audubon Aquarium & Insectarium","奥杜邦水族馆与昆虫馆","Aquarium and insect museum under one roof near Canal Street, with a butterfly garden.","运河街附近的水族馆和昆虫馆二合一，还有蝴蝶花园。","Audubon Aquarium and Insectarium New Orleans"],
+["n14","n","tour",2,"1.5 hr","Mardi Gras World","狂欢节世界","Behind-the-scenes tour of the warehouse where giant Mardi Gras floats are built.","参观制作巨型狂欢节花车的工坊，了解幕后制作过程。","Mardi Gras World New Orleans","tgv"],
+["n15","n","nature",0,"2 hr","City Park & Sculpture Garden","城市公园与雕塑花园","Huge park with ancient live oaks. The sculpture garden is free and the art museum is next door.","大型公园，有古老的橡树，雕塑花园免费，旁边就是艺术博物馆。","Besthoff Sculpture Garden New Orleans"],
+["n16","n","tour",2,"2 hr","Ghost or voodoo walking tour","鬼故事或巫毒文化徒步游","Evening walk through French Quarter legends, haunted houses and voodoo history.","傍晚的法国区徒步游，讲述传说、鬼屋和巫毒文化历史。","French Quarter ghost tour New Orleans"],
+["n17","n","tour",2,"2–3 hr","Creole cooking class","克里奥尔烹饪课","Learn gumbo, jambalaya and pralines, then eat everything you made.","学做秋葵浓汤、什锦饭和果仁糖，做完一起吃。","New Orleans School of Cooking"],
+["n18","n","tour",1,"1 hr","Algiers ferry & Algiers Point","阿尔及尔渡轮与阿尔及尔角","Cheap ferry across the Mississippi with great skyline views, then a quiet stroll on the other side.","价格便宜的密西西比河渡轮，天际线景色很好，到对岸后可以悠闲散步。","Canal Street Ferry Terminal New Orleans"],
+["n19","n","tour",3,"2 hr","Steamboat Natchez jazz cruise","纳奇兹号蒸汽船爵士游河","Two hours on the Mississippi aboard a real paddlewheel steamboat with live jazz.","乘坐真正的明轮蒸汽船游览密西西比河两小时，船上有现场爵士乐。","Steamboat Natchez New Orleans"],
+["n20","n","food",1,"45 min","Po-boys at Parkway Bakery","帕克威面包店“穷小子”三明治","Roast beef “debris” and fried shrimp po-boys at a beloved Mid-City spot.","深受喜爱的中城老店，招牌是烤牛肉碎和炸虾“穷小子”三明治。","Parkway Bakery and Tavern New Orleans"],
+["n21","n","food",3,"2 hr","Commander’s Palace jazz brunch","指挥官宫殿爵士早午餐","Splurge Creole brunch with a strolling jazz trio. Dress code applies; book early.","奢侈一把的克里奥尔早午餐，有爵士三重奏在席间演奏。有着装要求，需早订。","Commander's Palace New Orleans"],
+["n22","n","food",2,"1 hr","Dooky Chase’s Restaurant","杜基·蔡斯餐厅","Legendary Creole restaurant tied to civil rights history, famous for fried chicken and gumbo.","与民权运动历史紧密相连的传奇克里奥尔餐厅，以炸鸡和秋葵浓汤闻名。","Dooky Chase's Restaurant New Orleans"],
+["n23","n","tour",2,"1 hr","Guided cemetery tour (St. Louis No. 1)","墓地导览（圣路易斯一号墓地）","Above-ground tombs, including voodoo queen Marie Laveau’s. Visits are by guided tour only.","参观地上墓穴，包括巫毒女王玛丽·拉沃的墓，只能跟团参观。","St. Louis Cemetery No. 1 New Orleans"],
+["n24","n","museum",1,"1–1.5 hr","New Orleans Jazz Museum","新奥尔良爵士博物馆","Jazz history inside the Old U.S. Mint, often with free afternoon concerts.","位于旧美国铸币厂大楼里的爵士乐历史博物馆，下午常有免费音乐会。","New Orleans Jazz Museum"],
+["n25","n","museum",1,"1 hr","Pharmacy Museum","药剂博物馆","Quirky 1820s apothecary with old remedies, leeches and voodoo potions.","古怪有趣的1820年代老药房，展示旧时偏方、水蛭和巫毒药水。","New Orleans Pharmacy Museum"],
+["n26","n","nature",0,"1–2 hr","Crescent Park & Bywater murals","新月公园与拜沃特区壁画","Riverfront park walk into a colorful, artsy neighborhood full of murals.","沿河公园步道，通往色彩缤纷、壁画遍布的艺术街区。","Crescent Park New Orleans"],
+["n27","n","tour",2,"2 hr","Turkey Day Race, 8:30 AM","感恩节火鸡长跑（早上8:30）","Historic 5-mile run or walk through City Park on Thanksgiving morning.","感恩节早上在城市公园举行的百年传统5英里跑步或健走。","Tad Gormley Stadium New Orleans","thu"],
+["n28","n","tour",0,"2–3 hr","Fair Grounds Thanksgiving horse races","费尔格朗兹感恩节赛马","A local tradition: free grandstand admission, racing from around noon, locals in big hats.","当地传统：看台免费入场，中午前后开赛，当地人戴着大帽子来看比赛。","Fair Grounds Race Course New Orleans","thu"],
+["n29","n","music",0,"2 hr","Bayou Classic parade, 3 PM","巴尤经典大游行（下午3点）","Free parade near the Superdome featuring two famous HBCU marching bands.","超级巨蛋附近的免费游行，有两支著名的传统黑人大学军乐队表演。","Caesars Superdome New Orleans","thu"],
+
+["d1","d","nature",0,"2 hr","Barataria Preserve boardwalks","巴拉塔里亚自然保护区木栈道","Free swamp boardwalks in Jean Lafitte National Historical Park with good odds of gators. About 30 min away.","让·拉菲特国家历史公园内的免费沼泽木栈道，很可能看到鳄鱼。约30分钟车程。","Barataria Preserve Marrero LA"],
+["d2","d","nature",0,"2 hr","Bayou Segnette State Park","塞涅特河州立公园","The closest nature escape, about 15 min across the river, with trails and boardwalks.","离市区最近的自然去处，过河约15分钟，有步道和木栈道。","Bayou Segnette State Park Westwego LA"],
+["d3","d","nature",2,"2 hr","Honey Island Swamp tour (Slidell)","蜂蜜岛沼泽游船（斯莱德尔）","Small-boat tour of one of the least-disturbed swamps in the country. About 45 min away.","乘小船游览美国保存最完好的沼泽之一，约45分钟车程。","Honey Island Swamp Tours Slidell LA"],
+["d4","d","nature",3,"1.5 hr","Airboat tour (Lafitte area)","沼泽风扇船游（拉菲特一带）","Fast, loud airboat ride through marsh and bayous. More thrills, less quiet nature.","风扇船在沼泽和河湾中高速穿行，更刺激，但没那么安静。","airboat tours Lafitte LA"],
+["d5","d","nature",3,"2–3 hr","Manchac swamp kayak tour","曼查克沼泽皮划艇","Guided kayak paddle through cypress swamp, quiet and up close with wildlife.","跟导游划皮划艇穿越柏树沼泽，安静地近距离观察野生动物。","Manchac swamp kayak tour LA"],
+["d6","d","nature",2,"2 hr","Cajun Pride swamp tour (LaPlace)","卡津骄傲沼泽游船（拉普拉斯）","Swamp boat tour on a private wildlife refuge. Pairs well with the River Road plantations.","在私人野生动物保护区乘船游沼泽，可与河路种植园行程搭配。","Cajun Pride Swamp Tours LaPlace LA"],
+["d7","d","museum",2,"2 hr","Whitney Plantation","惠特尼种植园","The plantation museum focused on the lives of enslaved people. Powerful and important. About 1 hr away.","聚焦被奴役者生活的种植园博物馆，震撼且意义重大。约1小时车程。","Whitney Plantation Wallace LA","tue"],
+["d8","d","sight",2,"2 hr","Oak Alley Plantation","橡树巷种植园","A famous quarter-mile alley of centuries-old live oaks leading to an 1830s mansion.","著名的四分之一英里长橡树长廊，数百年的老橡树通向1830年代的庄园大宅。","Oak Alley Plantation Vacherie LA"],
+["d9","d","nature",1,"Half day","Fontainebleau State Park (Mandeville)","枫丹白露州立公园（曼德维尔）","Lakefront park on the Northshore with a sandy beach, sugar mill ruins, trails and cabins.","北岸湖边州立公园，有沙滩、制糖厂遗迹、步道和小木屋。","Fontainebleau State Park Mandeville LA"],
+["d10","d","nature",0,"1–2 hr","Northlake Nature Center (Mandeville)","北湖自然中心（曼德维尔）","Free boardwalk trails through swamp and pine forest beside Fontainebleau.","紧邻枫丹白露州立公园的免费木栈道，穿过沼泽和松林。","Northlake Nature Center Mandeville LA"],
+["d11","d","nature",1,"2–3 hr","Tammany Trace bike ride","坦慕尼小径骑行","Paved rail-trail through Northshore towns. Rent bikes and ride to Abita Springs.","由旧铁路改建的柏油骑行道，穿过北岸小镇，可租自行车骑到阿比塔泉镇。","Tammany Trace Mandeville LA"],
+["d12","d","museum",1,"1 hr","Abita Mystery House","阿比塔神秘屋","Wonderfully weird roadside museum of folk art, gadgets and a fake “bassigator.”","古怪有趣的路边博物馆，满是民间艺术、奇特装置和假的“鲈鱼鳄”。","Abita Mystery House Abita Springs LA"],
+["d13","d","nature",2,"2 hr","Global Wildlife Center (Folsom)","全球野生动物中心（福尔瑟姆）","Covered-wagon safari where giraffes, zebras and camels come right up to be fed. About 1 hr away.","乘篷车游览野生动物园，长颈鹿、斑马和骆驼会凑过来让你喂食。约1小时车程。","Global Wildlife Center Folsom LA"],
+["d14","d","tour",2,"Half day","Louisiana Renaissance Festival (Hammond)","路易斯安那文艺复兴节（哈蒙德）","Jousting, costumes and giant turkey legs. Open weekends, and in past years the Friday after Thanksgiving too. Sunday 11/22 is the surest bet.","骑士比武、古装表演和超大火鸡腿。周末开放，往年感恩节后的周五也开放。11月22日周日最稳妥。","Louisiana Renaissance Festival Hammond LA","sun"],
+["d15","d","nature",0,"Full day","Mississippi Gulf Coast beach towns","密西西比墨西哥湾海滨小镇","Bay St. Louis and Ocean Springs, about 1 to 1.5 hr east, with Gulf Islands National Seashore trails.","向东约1到1.5小时的圣路易斯湾和海洋泉小镇，还有海湾群岛国家海岸步道。","Ocean Springs MS"]
+];
+
+// Hand-picked links: w = website, v = video
+const MEDIA={
+ r3:{w:"https://www.nature.org/en-us/get-involved/how-to-help/places-we-protect/cypress-island/",v:"https://www.youtube.com/watch?v=CbKe5dL-w8Q"},
+ r4:{w:"https://www.mcgeesswamptours.com/",v:"https://www.youtube.com/watch?v=wKV4Cn1bn44"},
+ r6:{w:"https://bayouvermiliondistrict.org/vermilionville/",v:"https://www.youtube.com/watch?v=-SLqSjDrHL8"},
+ r7:{w:"https://www.tabasco.com/visit-avery-island/",v:"https://www.youtube.com/watch?v=tIHxeXIYpW4"},
+ n5:{w:"https://www.nationalww2museum.org/visit/plan-your-visit",v:"https://www.youtube.com/watch?v=KwE4ZMymkv8"},
+ n6:{w:"https://www.preservationhall.com/",v:"https://www.youtube.com/watch?v=4bOHzW0NSuE"},
+ n12:{w:"https://audubonnatureinstitute.org/"},
+ n13:{w:"https://audubonnatureinstitute.org/",v:"https://www.youtube.com/watch?v=laowNwq9zRw"},
+ n14:{w:"https://www.mardigrasworld.com/",v:"https://www.youtube.com/watch?v=hD-pCkvew1w"},
+ n19:{v:"https://www.youtube.com/watch?v=6mcRX5RtW9k"},
+ n28:{w:"https://www.fairgroundsracecourse.com/"},
+ n29:{w:"https://mybayouclassic.com/events/"},
+ d1:{w:"https://www.nps.gov/jela/planyourvisit/barataria-preserve.htm",v:"https://www.youtube.com/watch?v=YlFFwEMx84s"},
+ d2:{w:"https://www.lastateparks.com/parks-preserves/bayou-segnette-state-park"},
+ d3:{w:"https://www.honeyislandswamp.com/",v:"https://www.youtube.com/watch?v=lidZWpdrCE8"},
+ d6:{w:"https://www.cajunprideswamptours.com/",v:"https://www.youtube.com/watch?v=USEh9ZF6e-o"},
+ d7:{w:"https://whitneyplantation.org/plan-your-visit/",v:"https://www.youtube.com/watch?v=V8DQOhf8n9I"},
+ d8:{w:"https://oakalleyplantation.org/visit/",v:"https://www.youtube.com/watch?v=8K6e2bow5yo"},
+ d9:{w:"https://www.lastateparks.com/parks-preserves/fontainebleau-state-park"},
+ d13:{w:"https://globalwildlife.com/",v:"https://www.youtube.com/watch?v=AQSW-snJLs8"},
+ d14:{w:"https://www.renfest.net/",v:"https://www.youtube.com/watch?v=WIoE4x9eHCc"}
+};
+
+// Detailed intros: [what_en, why_en, tips_en, what_zh, why_zh, tips_zh, say_it]
+const INFO = {
+r1:["A no-frills Cajun meat market in Scott, a town nicknamed the Boudin Capital of the World. Boudin is a soft sausage stuffed with pork, rice, green onion and spices; cracklins are chunks of pork skin and fat fried until crunchy.",
+"It’s the classic first taste of Cajun food and a ritual for I-10 road-trippers. Order a link of boudin to share, a few fried boudin balls (boudin rolled into balls and deep-fried) and a small bag of cracklins, then eat at the outdoor tables or in the car.",
+"About 3 hours from Houston, so it lands right at a natural break. Lines move fast. Pepper jack boudin balls are a popular twist. It’s mostly to-go, so grab napkins.",
+"斯科特镇一家朴实的卡津肉铺，这个小镇被称为“世界米肠之都”。Boudin 是一种软糯的香肠，里面塞着猪肉、米饭、葱和香料；Cracklins 则是炸到酥脆的猪皮和肥肉块。",
+"这是第一次品尝卡津美食的经典选择，也是 I-10 公路旅行者的“打卡仪式”。可以点一根米肠大家分着吃，再点几个炸米肠球（把米肠馅搓成球油炸）和一小袋猪油渣，在户外桌边或车里吃。",
+"距休斯顿约3小时，正好是中途休息的时间点。排队很快。胡椒杰克奶酪米肠球很受欢迎。基本是外带，记得多拿纸巾。","BOO-dan"],
+r2:["A small smokehouse in downtown Lafayette run by descendants of a family grocery that began smoking meats in the 1930s. “Boucanière” comes from the Cajun French word for a place where meat is smoked.",
+"Locals come for smoked sausage, tasso (a spicy smoked pork used in Cajun cooking), boudin and smoked-meat sandwiches. It feels like a neighborhood secret rather than a tourist stop.",
+"Hours are short and items sell out, so check the day before. Seating is limited, so plan to eat quickly or take it to go. It’s about 10 minutes from Vermilionville, so the two pair well.",
+"拉斐特市中心的一家小烟熏铺，由一家始于1930年代的家族杂货店后人经营。店名“Boucanière”来自卡津法语，意思是熏肉的地方。",
+"本地人来这里买烟熏香肠、塔索火腿（卡津菜里常用的辛辣烟熏猪肉）、米肠和烟熏肉三明治。感觉更像本地人的私藏小店，而不是旅游景点。",
+"营业时间短，常常卖完，最好前一天确认。座位很少，可以快速吃完或外带。离维米利恩维尔历史村约10分钟车程，适合一起安排。","boo-kahn-YAIR"],
+r3:["A roughly 9,500-acre preserve managed by The Nature Conservancy, surrounding a lake full of bald cypress trees draped in Spanish moss. It’s one of the best places in Louisiana to see wading birds and alligators in the wild.",
+"It’s the picture-postcard Louisiana swamp: still water, cypress “knees” poking up, herons stalking the shallows. A short boardwalk near the visitor center lets you walk into the swamp without a boat, and sunsets over the lake are famous.",
+"The huge nesting rookery is a spring event (late January to June), so in November expect fewer nesting birds but more ducks and other migrating waterfowl. Some levee trails and part of Rookery Road are closed, so stick to the visitor-center boardwalk and lake viewpoints. Gators are less active in cool weather. Free.",
+"由大自然保护协会管理的一片约9500英亩的保护区，湖中长满挂着西班牙苔藓的落羽杉。这里是路易斯安那州观赏野生涉禽和短吻鳄的最佳地点之一。",
+"这就是明信片上的路易斯安那沼泽：平静的水面、从水中冒出的柏树“膝根”、在浅水中踱步的苍鹭。游客中心附近的短木栈道让你不用坐船也能走进沼泽，湖上的日落也很有名。",
+"大规模鸟类筑巢是春季景观（1月底至6月），11月筑巢的鸟会少一些，但会有更多野鸭等迁徙水鸟。部分堤岸步道和鸟巢路目前关闭，建议走游客中心木栈道和湖边观景点。天冷时鳄鱼不太活跃。免费。",""],
+r4:["A 90-minute narrated boat tour into the Atchafalaya Basin, a 1.4-million-acre wilderness and the largest river swamp in the United States, leaving from Henderson right off I-10.",
+"Local Cajun captains steer covered boats through cypress forests and bayous while telling stories about living off the swamp. You may spot egrets, eagles and alligators, and you get a real sense of how huge and wild the basin is.",
+"Choose the regular covered boat (quieter, better for photos) or a faster, louder airboat. Wildlife varies by season; November is cool and comfortable, but gators are less active. Book ahead on weekends and bring a light jacket for the breeze.",
+"在阿查法拉亚盆地乘船游览90分钟，由导游讲解。这片140万英亩的荒野是美国最大的河流沼泽，出发点就在 I-10 旁的亨德森镇。",
+"当地卡津船长驾驶有顶棚的船穿过柏树林和河湾，一路讲述靠沼泽生活的故事。可能看到白鹭、老鹰和鳄鱼，能真切感受到这片盆地有多辽阔、多原始。",
+"可选普通有棚船（较安静，适合拍照）或更快更吵的风扇船。野生动物随季节变化；11月天气凉爽舒适，但鳄鱼较少活动。周末最好提前预订，船上有风，带件薄外套。","uh-CHAF-uh-LIE-uh"],
+r5:["A state visitor center on the long I-10 bridge across the Atchafalaya Basin, with exhibits on the swamp’s wildlife, Cajun history and how people have fished and lived here.",
+"It’s a free, easy leg-stretch with restrooms, and the exhibits give useful context before (or instead of) a swamp tour. The 18-mile bridge itself is one of the longest in the country, built on pillars over open swamp.",
+"Allow 20 to 30 minutes. Staff can suggest swamp tours and Cajun restaurants nearby. A good backup if the family wants to see the swamp but doesn’t have time for a boat ride.",
+"位于横跨阿查法拉亚盆地的 I-10 长桥上的州立游客中心，展览介绍沼泽的野生动物、卡津历史，以及当地人如何在这里捕鱼和生活。",
+"免费又方便的休息站，有洗手间，展览能帮助你在坐船游沼泽之前（或代替坐船）了解背景。这座18英里长的大桥本身就是全美最长的桥梁之一，桥墩直接立在沼泽上。",
+"停留20到30分钟即可。工作人员可以推荐附近的沼泽游和卡津餐厅。如果想看沼泽但没时间坐船，这里是不错的替代选择。",""],
+r6:["A 23-acre open-air living history museum on Bayou Vermilion in Lafayette, showing Acadian (Cajun), Creole and Native American life from 1765 to 1890 through restored and replica homes, a chapel, a schoolhouse and workshops.",
+"Costumed guides cook, weave, work a forge and chat in character, some in Cajun French. It’s the clearest way to understand who the Cajuns are: French-speaking people exiled from Canada in the 1750s who rebuilt their lives in Louisiana’s swamps.",
+"Open Tuesday to Sunday, 10 a.m. to 4 p.m., with last admission at 3, so a Saturday stop works. Allow 1 to 1.5 hours; paths are gravel and grass. Some weekends feature live Cajun or zydeco music.",
+"位于拉斐特维米利恩河畔、占地23英亩的露天活态历史博物馆，通过修复和复建的老房子、小教堂、学校和作坊，展示1765年至1890年间阿卡迪亚人（卡津人）、克里奥尔人和美洲原住民的生活。",
+"穿着传统服饰的讲解员会现场做饭、织布、打铁，并以角色身份和你聊天，有些人还说卡津法语。这是了解卡津人最直观的方式：他们是1750年代被逐出加拿大的法语族群，后来在路易斯安那的沼泽地重建家园。",
+"周二至周日上午10点至下午4点开放，3点停止入场，所以周六顺路去没问题。游览约需1到1.5小时，路面多为碎石和草地。部分周末有卡津或柴迪科（zydeco）现场音乐。","ver-MIL-yun-ville"],
+r7:["The home of Tabasco hot sauce, made here by the McIlhenny family for over five generations. The “island” is actually a giant salt dome rising out of the marsh, about 30 minutes south of I-10.",
+"The self-guided Tabasco experience covers a museum, a pepper greenhouse, the barrel warehouse where pepper mash ages, and a country store with tastings of unusual flavors. Then drive or walk through Jungle Gardens: 170 acres of ancient oaks, bayous, a centuries-old Buddha statue and an egret colony called Bird City.",
+"Allow 2 to 3 hours for both. Look for combo tickets for the tour and gardens. The on-site restaurant, 1868!, puts Tabasco in everything. It’s a detour, so pair it with a Lafayette-area lunch.",
+"塔巴斯科辣酱的故乡，麦基尔亨尼家族在这里制作辣酱已有五代以上。所谓的“岛”其实是从沼泽中隆起的巨大盐丘，距 I-10 往南约30分钟。",
+"自助参观包括博物馆、辣椒温室、陈酿辣椒泥的木桶仓库，还有可以试吃各种奇特口味的商店。之后可以开车或步行游览丛林花园：170英亩的古老橡树、河湾、一尊有数百年历史的佛像，以及被称为“鸟城”的白鹭栖息地。",
+"两处一起约需2到3小时。可以留意工厂和花园的套票。园内餐厅“1868!”的每道菜都加了塔巴斯科。这里需要绕路，可以和拉斐特一带的午餐一起安排。",""],
+r8:["At 450 feet and 34 floors, the tallest state capitol in the United States: an Art Deco tower built in 1932 under Governor Huey Long.",
+"The free observation deck on the 27th floor has sweeping views of the Mississippi River and Baton Rouge. The ornate Memorial Hall and chambers are worth a look, and there’s dramatic history: Huey Long was assassinated in a hallway here in 1935, and visitors still look for the bullet marks in the marble.",
+"Free, about an hour, with a security check at the entrance. Confirm weekend hours before going. It’s about an hour west of New Orleans, so it fits on the drive in or out.",
+"高450英尺、共34层，是全美最高的州议会大厦，这座装饰艺术风格的大楼于1932年在州长休伊·朗任内建成。",
+"27楼的免费观景台可以俯瞰密西西比河和巴吞鲁日全景。楼内华丽的纪念大厅和议事厅也值得一看。这里还有戏剧性的历史：休伊·朗1935年在这里的走廊遇刺，游客至今仍会寻找大理石上的弹痕。",
+"免费，约1小时，入口需过安检。周末开放时间出发前请确认。距新奥尔良约1小时车程，来回路上都可以顺路安排。",""],
+r9:["Louisiana State University’s main campus, home of Tiger Stadium (one of the largest college football stadiums in the country) and the school’s mascot, a real tiger named Mike, who lives in a large habitat beside the stadium.",
+"It’s a free, easy stop with a big-college feel: oak-shaded lawns, Italian Renaissance-style buildings and the chance to see a live tiger. For an 18-year-old, it’s also a fun look at a major Southern university.",
+"Mike often naps but is more active in cool morning hours, so November is a good time. Parking near the stadium is easy on non-game days; check that there’s no home football game that weekend. Allow about an hour.",
+"路易斯安那州立大学主校区，拥有全美最大的大学橄榄球场之一“老虎体育场”。体育场旁的大型园区里住着学校的吉祥物——一只名叫迈克的真老虎。",
+"免费又方便的停靠点，充满名校氛围：橡树成荫的草坪、意大利文艺复兴风格的建筑，还能看到真老虎。对18岁的孩子来说，也是参观一所南方大学的好机会。",
+"迈克经常在睡觉，凉爽的早上比较活跃，所以11月是好时机。非比赛日在体育场附近停车很方便，请确认当周末没有主场橄榄球比赛。约需1小时。",""],
+r10:["A World War II Fletcher-class destroyer, restored to its 1945 wartime look and docked on the Mississippi River in downtown Baton Rouge, with a veterans museum beside it.",
+"You climb ladders and squeeze through the ship’s real crew bunks, galley, engine spaces and gun mounts, which gives a vivid sense of life at sea. The Kidd was hit by a kamikaze plane in 1945, and that story is told on board.",
+"Allow 1 to 2 hours. There are lots of steep ladders and tight spaces, so wear sneakers. Combine it with the State Capitol, a few minutes away.",
+"一艘二战弗莱彻级驱逐舰，已恢复到1945年战时的样子，停泊在巴吞鲁日市中心的密西西比河上，旁边还有一座退伍军人博物馆。",
+"可以爬上爬下舰上的梯子，穿过真实的船员床铺、厨房、轮机舱和炮位，生动感受海上生活。基德号1945年曾被神风特攻队飞机撞击，舰上会讲述这段故事。",
+"约需1到2小时。梯子陡、空间窄，请穿运动鞋。可与几分钟车程外的州议会大厦一起安排。",""],
+n1:["An open-air coffee stand at the edge of the French Quarter that has served beignets since 1862. Beignets are square, fluffy pieces of fried dough buried under powdered sugar.",
+"It’s the most iconic snack in New Orleans. The menu is tiny: beignets come three to an order, with café au lait made with chicory, a roasted root that gives the coffee a mellow, slightly bitter taste. Non-coffee drinkers can get hot chocolate or juice.",
+"Lines are longest midday and on weekends, so go early morning or late evening, or use the to-go window. Wear dark clothes, and don’t inhale while biting or you’ll cough up sugar. Seating is first come, first served.",
+"法国区边上的一家露天咖啡摊，从1862年开始售卖法式甜甜圈（Beignet）。这是一种方形、蓬松的油炸面团，上面堆满糖粉。",
+"这是新奥尔良最具代表性的小吃。菜单非常简单：甜甜圈每份三个，配上加了菊苣的牛奶咖啡（菊苣是一种烘焙过的植物根，让咖啡口感更醇、略带苦味）。不喝咖啡的人可以点热巧克力或果汁。",
+"中午和周末排队最长，建议早上或晚上去，或者用外带窗口。穿深色衣服，咬的时候别吸气，不然会被糖粉呛到。座位先到先得。","ben-YAY"],
+n2:["The historic main square of the French Quarter, laid out in the 1700s, with a statue of Andrew Jackson in the center, St. Louis Cathedral (the oldest continuously active cathedral in the U.S.) behind it, and the 1840s Pontalba Buildings on two sides.",
+"This is the postcard view of New Orleans. Artists hang paintings on the iron fence, brass bands and street performers play, and fortune tellers set up tables. You can step inside the cathedral for free, and the two museums beside it (the Cabildo and the Presbytère) cover Louisiana history and Mardi Gras.",
+"Free and lively all day; mornings are calmer for photos. Café du Monde is across the street, and mule-drawn carriage tours start along Decatur Street.",
+"法国区历史悠久的中心广场，建于1700年代，中央是安德鲁·杰克逊雕像，后方是圣路易斯大教堂（美国持续使用至今最古老的大教堂），两侧是1840年代建造的蓬塔尔巴大楼。",
+"这就是新奥尔良明信片上的经典景色。画家把画挂在铁栏杆上展示，铜管乐队和街头艺人表演，算命师在路边摆桌。大教堂可以免费入内参观，旁边的两座博物馆（卡比尔多和长老会馆）介绍路易斯安那历史和狂欢节。",
+"免费，全天都很热闹；早上人少，适合拍照。世界咖啡馆就在对街，迪凯特街上可以乘坐骡车观光。",""],
+n3:["A string of open-air market sheds along the Mississippi River that has hosted a market since 1791, making it one of the oldest public markets in the country.",
+"Browse stalls of local crafts, souvenirs, hot sauces and art, and grab snacks like pralines (a creamy pecan candy), po-boys or fresh juice. It’s an easy, relaxed stroll between Jackson Square and Frenchmen Street.",
+"Free to walk. Vendors are busiest in the morning and early afternoon. Some stalls sell cheap imported souvenirs, so look for local makers. Restrooms are available in the market.",
+"沿密西西比河的一排露天市场棚，自1791年起就有集市，是美国最古老的公共市场之一。",
+"可以逛本地手工艺品、纪念品、辣酱和艺术品摊位，买些果仁糖（一种奶香山核桃糖）、穷小子三明治或果汁当零食。从杰克逊广场到法国人街，一路悠闲逛过去很轻松。",
+"免费逛。早上和下午早些时候摊位最多。有些摊卖便宜的进口纪念品，想买本地货要留意。市场内有洗手间。","PRAH-leen (pralines)"],
+n4:["A giant round Sicilian sandwich invented in 1906 at Central Grocery in the French Quarter: a sesame loaf piled with salami, ham, mortadella, provolone and a chopped, vinegary olive salad.",
+"It’s one of New Orleans’ signature foods and a perfect shared lunch. A whole muffuletta is about 10 inches across, and a half easily feeds two. The olive salad soaks into the bread, which is the whole point.",
+"Check whether Central Grocery is open when you visit; other French Quarter spots make it too, and some serve it warm. Most places sell it to go, so take it to the riverfront benches nearby.",
+"一种巨大的圆形西西里三明治，1906年由法国区的中央杂货店发明：芝麻圆面包里夹着萨拉米香肠、火腿、意式肉肠、波萝伏洛奶酪，以及切碎的醋腌橄榄沙拉。",
+"这是新奥尔良的招牌美食之一，非常适合几个人分享当午餐。一整个直径约10英寸，半个就够两个人吃。橄榄沙拉的汁浸进面包里，正是它好吃的关键。",
+"去之前确认中央杂货店是否营业；法国区其他店也有卖，有的会加热。大多是外带，可以拿到附近河边的长椅上吃。","muff-uh-LET-uh"],
+n5:["A huge museum complex, designated by Congress as America’s National WWII Museum, telling the story of the war from Pearl Harbor to victory through personal stories, artifacts, full-size aircraft and immersive galleries.",
+"It’s consistently ranked one of the best museums in the country. You receive a “dog tag” card to follow one real person through the war, there’s a submarine experience recreating the USS Tang’s final patrol, and the 4D film “Beyond All Boundaries,” narrated by Tom Hanks, shakes the seats and fills the theater with snow and smoke.",
+"General admission is about $27 to $42 per person, and theater add-ons are about $9 each. Plan at least 4 to 5 hours. Exhibits are kept cold, so bring a sweater. Buy timed tickets online; fall is a busy season.",
+"一座庞大的博物馆建筑群，被美国国会定为国家二战博物馆，通过个人故事、文物、实体飞机和沉浸式展厅，讲述从珍珠港到胜利的整场战争。",
+"一直被评为全美最好的博物馆之一。入馆会拿到一张“军牌”卡，跟随一位真实人物经历整场战争；有重现“刺尾鱼号”潜艇最后一次巡航的潜艇体验；汤姆·汉克斯旁白的4D电影《超越一切界限》会让座椅震动、影院里飘雪冒烟。",
+"普通门票每人约27到42美元，剧场附加项目每项约9美元。至少预留4到5小时。展厅温度很低，带件毛衣。建议网上买分时段票，秋季游客较多。",""],
+n6:["A tiny, weathered French Quarter room dedicated to traditional New Orleans jazz since 1961. Every evening, veteran local musicians play short, unamplified sets for small audiences.",
+"It’s the most authentic, up-close way to hear the music New Orleans invented. There’s no bar, no food and no frills: just a few benches, standing room and a band a few feet away. It’s all ages, so your son can come.",
+"Sets run about 45 minutes, several times each evening. Shows sell out, so book ahead online; standing tickets are cheaper than seats. Arrive a little early.",
+"法国区一间小小的老屋，自1961年起专门演奏传统新奥尔良爵士乐。每晚由资深本地音乐家进行简短、不用扩音的演出，观众不多。",
+"这是最原汁原味、近距离聆听新奥尔良发明的这种音乐的方式。没有酒吧、没有餐食、没有花哨装饰：只有几排长椅、站位，乐队就在几步之外。不限年龄，儿子也可以去。",
+"每场约45分钟，每晚有好几场。门票常售罄，请提前网上订；站票比座位便宜。稍微提早到。",""],
+n7:["A three-block strip in the Marigny neighborhood, just past the French Quarter, lined with small live-music clubs where local bands play jazz, brass, blues, funk and swing nearly every night.",
+"This is where locals go for music instead of Bourbon Street. You can wander door to door and hear a different band every half block, and the Frenchmen Art Market sells handmade art in the evenings.",
+"Many clubs are 21+ after dark, which matters for your 18-year-old: look for all-ages spots, go earlier in the evening, or enjoy the brass bands playing on street corners. Some clubs have no cover but expect you to buy a drink, and it’s customary to tip the band.",
+"紧挨法国区的马里尼街区里一段三个街区长的街道，两旁都是小型现场音乐酒吧，本地乐队几乎每晚演奏爵士、铜管乐、蓝调、放克和摇摆乐。",
+"这里是本地人听音乐的地方，而不是波本街。可以一家家逛过去，每走半个街区就能听到不同乐队。晚上还有法国人街艺术市集，卖手工艺术品。",
+"很多酒吧天黑后只允许21岁以上入场，这对18岁的儿子有影响：可以找不限年龄的场所、傍晚早点去，或者在街角欣赏铜管乐队演奏。有些酒吧不收门票，但希望你点一杯饮料，习惯上也要给乐队小费。",""],
+n8:["The French Quarter’s famous party street: about 13 blocks of bars, neon signs, balconies and music that become pedestrian-only at night.",
+"Most visitors walk it once just to see the spectacle: crowds, street performers, balconies and live bands spilling out of open doors. For better or worse, it’s part of the city’s identity.",
+"It gets loud, crowded and messy late at night, so early evening is best for a family walk-through. The drinking age is 21. Keep phones and wallets secure and stick to busy blocks.",
+"法国区著名的狂欢街：约13个街区的酒吧、霓虹招牌、阳台和音乐，晚上变成步行街。",
+"大多数游客只是走一趟看看热闹：人潮、街头艺人、阳台，还有从敞开的门里传出的现场乐队声。无论好坏，它都是这座城市的标志之一。",
+"深夜会很吵、很挤、很乱，傍晚时一家人走一趟最合适。饮酒年龄是21岁。保管好手机和钱包，走人多的街段。",""],
+n9:["The St. Charles line is the oldest continuously operating streetcar line in the world, running olive-green wooden cars from the 1920s along a grassy median under giant live oaks.",
+"It’s a cheap, slow, beautiful ride past mansions, Tulane and Loyola universities and Audubon Park, and the easiest way to reach the Garden District and the zoo without driving. The windows open, and the wooden seat backs flip to face forward at the end of the line.",
+"Fare is $1.25 per person each way (exact change), or buy an unlimited day pass in the transit agency’s Le Pass app. Cars can get crowded. A full one-way ride takes about 45 minutes or more.",
+"圣查尔斯线是世界上持续运营至今最古老的有轨电车线路，1920年代的橄榄绿色木质车厢在巨大橡树下的草地中央隔离带上行驶。",
+"便宜、慢悠悠又非常美的一段车程，沿途经过豪宅、杜兰和洛约拉大学以及奥杜邦公园，也是不开车去花园区和动物园最方便的方式。车窗可以打开，木座椅靠背在终点站可以翻转朝前。",
+"单程每人1.25美元（需零钱），或在公交局的 Le Pass 应用里买一日通票。车厢可能很挤。全程单程约45分钟或更久。",""],
+n10:["A residential neighborhood of grand 1800s mansions built by wealthy Americans who arrived after the Louisiana Purchase, with lush gardens, iron fences and oak-lined streets.",
+"Walking these quiet streets feels like stepping into a movie set, and several houses belonged to famous residents, including author Anne Rice. It pairs naturally with the streetcar, Commander’s Palace and Magazine Street.",
+"Free to explore on your own with a map, or take a guided walking tour (about 2 hours) for the stories behind each house. The homes are private, so view from the sidewalk. Lafayette Cemetery No. 1 here has been closed for restoration, so check before planning around it.",
+"一个住宅街区，满是19世纪的豪宅，由路易斯安那购地案后迁来的富裕美国人建造，配有茂盛的花园、铁艺栅栏和橡树林荫道。",
+"走在安静的街道上就像进入电影场景，好几栋房子曾属于名人，包括作家安妮·赖斯。可以和有轨电车、指挥官宫殿餐厅以及杂志街一起安排。",
+"可以拿地图自己免费逛，也可以参加约2小时的导览，听每栋房子背后的故事。房子都是私宅，请在人行道上观赏。这里的拉法叶一号墓地一直在闭馆修复，安排前请先确认。",""],
+n11:["A roughly six-mile street running from downtown to Uptown, lined with locally owned boutiques, antique and vintage shops, galleries, cafés and casual restaurants.",
+"It’s where New Orleanians actually shop and eat, so it feels local rather than touristy. Good for a relaxed afternoon of browsing, coffee and snacks after the Garden District.",
+"It’s long, so pick a stretch: the blocks near the Garden District and around Napoleon Avenue are the liveliest. Street parking is free in many spots but can be tight. Many small shops close by 5 or 6 p.m.",
+"一条从市中心延伸到上城区、约六英里长的街道，两旁是本地人开的精品店、古董和古着店、画廊、咖啡馆和休闲餐厅。",
+"这是新奥尔良本地人真正购物和吃饭的地方，感觉很生活化，不那么游客化。逛完花园区后，适合在这里悠闲地逛逛、喝咖啡、吃点东西。",
+"街道很长，挑一段逛就好：花园区附近和拿破仑大道一带最热闹。很多地方路边停车免费，但车位紧张。很多小店下午5、6点就关门。",""],
+n12:["A large, well-loved zoo in Uptown’s Audubon Park, known for its Louisiana Swamp exhibit (with alligators and a recreated Cajun village), its jaguar habitat and animals from around the world.",
+"If the family wants a guaranteed alligator sighting, this is the surest place, and the swamp exhibit explains Louisiana wildlife well. The grounds are shady and pretty, and the streetcar ride there is part of the fun.",
+"Allow about 3 hours. Look for combo tickets with the Aquarium & Insectarium. It’s about a 20-minute walk through Audubon Park from the St. Charles streetcar, or you can drive and park. Check Thanksgiving-week hours.",
+"位于上城奥杜邦公园内的大型动物园，深受喜爱，以路易斯安那沼泽展区（有鳄鱼和复原的卡津村落）、美洲豹园区和来自世界各地的动物闻名。",
+"如果全家想百分百看到鳄鱼，这里最稳妥，沼泽展区也很好地介绍了路易斯安那的野生动物。园区绿树成荫、景色优美，坐有轨电车过去也很有趣。",
+"约需3小时。可以留意与水族馆和昆虫馆的联票。从圣查尔斯有轨电车站穿过奥杜邦公园步行约20分钟，也可以开车停车。请确认感恩节那周的营业时间。",""],
+n13:["Two attractions under one roof on the riverfront near Canal Street, reopened in 2023 after a major renovation: an aquarium of the Gulf of Mexico, Mississippi River and Amazon, plus an insect museum.",
+"Highlights include a huge Gulf of Mexico tank with sharks and rays, penguins, sea otters and jellyfish, followed by a walk-through butterfly garden and live bug exhibits. It’s a great indoor option if it rains.",
+"Allow 2 to 3 hours. It’s an easy walk from the French Quarter. Buy tickets online and check combo deals with the zoo.",
+"位于运河街附近河边的两合一景点，2023年大规模翻新后重新开放：一座以墨西哥湾、密西西比河和亚马孙为主题的水族馆，加上一座昆虫博物馆。",
+"亮点包括有鲨鱼和魟鱼的巨大墨西哥湾水缸、企鹅、海獭和水母，还有可以走进去的蝴蝶花园和活体昆虫展。下雨天是很好的室内选择。",
+"约需2到3小时。从法国区步行即可到达。建议网上购票，并留意与动物园的联票优惠。",""],
+n14:["The giant working warehouse of Kern Studios, whose family has built New Orleans Mardi Gras parade floats since 1932.",
+"On a guided tour you walk among towering, brightly painted float sculptures and watch artists carve, sculpt and paint next year’s parades. It’s the best way to understand Mardi Gras if you aren’t here in February, and tours often include a slice of king cake.",
+"About 1 to 1.5 hours. Closed on Thanksgiving Day. It’s on the riverfront; there’s a free shuttle from the French Quarter area and parking on site.",
+"肯恩工作室的巨型工坊，这个家族从1932年起就为新奥尔良狂欢节游行制作花车。",
+"跟随导游走在高大、色彩鲜艳的花车雕塑之间，看艺术家们雕刻、塑形、彩绘明年的游行花车。如果不是二月来，这是了解狂欢节最好的方式，导览常常还会请你吃一块国王蛋糕。",
+"约1到1.5小时。感恩节当天闭馆。位于河边，法国区一带有免费接驳车，现场也可以停车。",""],
+n15:["A 1,300-acre park in Mid-City, larger than New York’s Central Park, with one of the world’s largest collections of mature live oaks, some of them centuries old.",
+"Stroll under giant moss-draped oaks, then visit the free Besthoff Sculpture Garden, with works by famous artists set around lagoons, and the New Orleans Museum of Art next door. It’s a peaceful break from the Quarter.",
+"The sculpture garden is free; the art museum charges admission. The holiday light show, Celebration in the Oaks, opens Nov 27, the day you leave. Easy to reach by the Canal Street streetcar (City Park/Museum branch).",
+"位于中城、占地1300英亩的公园，比纽约中央公园还大，拥有世界上数量最多的成年橡树之一，有些已有数百年树龄。",
+"在挂满苔藓的巨大橡树下散步，再去免费的贝斯特霍夫雕塑花园，名家作品分布在湖畔，旁边就是新奥尔良艺术博物馆。是远离法国区喧闹的好去处。",
+"雕塑花园免费，艺术博物馆需购票。节日灯光秀“橡树庆典”11月27日开幕，正好是你们离开那天。可乘运河街有轨电车（城市公园/博物馆支线）到达。",""],
+n16:["A guided evening walk through the French Quarter focused on the city’s legends: haunted mansions, voodoo priestess Marie Laveau, pirates and darker chapters of local history.",
+"New Orleans is often called one of the most haunted cities in America, and a good guide brings the old streets alive with storytelling. It’s fun, a little spooky and full of real history.",
+"Tours run about 2 hours. Some are “haunted pub crawls” limited to 21+, so pick a family-friendly tour. Wear comfortable shoes.",
+"傍晚由导游带领的法国区徒步游，主题是这座城市的传说：闹鬼豪宅、巫毒女祭司玛丽·拉沃、海盗，以及当地历史中较黑暗的篇章。",
+"新奥尔良常被称为美国最“闹鬼”的城市之一，好的导游讲故事能让老街活起来。有趣、有点吓人，也充满真实历史。",
+"约2小时。有些是只限21岁以上的“闹鬼酒吧游”，请选适合家庭的团。穿舒适的鞋。",""],
+n17:["A Creole and Cajun cooking class in the French Quarter, where a local chef shows you how to make classics like gumbo, jambalaya and pralines, with plenty of stories and jokes along the way.",
+"You learn what makes Louisiana food different, like the “holy trinity” of onion, celery and bell pepper and the dark roux behind gumbo, then sit down and eat everything. You’ll go home able to cook a gumbo for the family.",
+"Choose a demonstration class (sit and watch, about 2 hours, cheaper) or a hands-on class (you cook, longer and pricier). Book ahead, since popular times fill up. Recipes are usually provided.",
+"法国区的克里奥尔和卡津烹饪课，由本地厨师示范如何做秋葵浓汤、什锦饭和果仁糖等经典菜，一边做一边讲故事、开玩笑。",
+"你会了解路易斯安那菜的特别之处，比如洋葱、芹菜、青椒组成的“神圣三位一体”，以及秋葵浓汤背后的深色油面糊，然后坐下来把做好的菜都吃掉。回家后就能给家人做一锅秋葵浓汤。",
+"可选示范课（坐着看，约2小时，较便宜）或动手课（自己做，时间更长、价格更高）。热门时段请提前预订。通常会提供食谱。","GUM-bo, JUM-buh-LIE-uh"],
+n18:["A commuter ferry across the Mississippi River from the foot of Canal Street to Algiers Point, a quiet 1800s neighborhood on the other bank.",
+"For about $2 each way you get one of the best views of the New Orleans skyline from the middle of the river. On the other side, walk the levee path with its jazz history markers, see colorful old cottages and stop at a neighborhood café.",
+"Pedestrians and bicycles only, no cars. The crossing takes only a few minutes; boats run roughly every 30 minutes and stop in the evening, so check the schedule. Lovely at sunset.",
+"从运河街尽头横渡密西西比河、开往阿尔及尔角的通勤渡轮。阿尔及尔角是对岸一个安静的19世纪老街区。",
+"单程约2美元，就能在河中央欣赏新奥尔良天际线的最佳景色之一。到对岸后，可以沿着有爵士历史标牌的河堤小路散步，看色彩缤纷的老房子，在街区咖啡馆歇脚。",
+"只载行人和自行车，不能开车。航程只需几分钟；船大约每30分钟一班，晚上停航，请查好时刻表。傍晚看日落很美。","al-JEERZ"],
+n19:["The Natchez is a real steam-powered paddlewheel riverboat, the city’s only authentic steamboat, offering two-hour Mississippi River cruises with a live jazz band.",
+"You cruise past the French Quarter and the busy port while a jazz band plays, and you can visit the engine room to watch the steam engines work. Before departure, the steam calliope (an organ played with steam whistles) plays tunes you can hear across the Quarter.",
+"Choose a daytime harbor cruise (cheaper) or an evening dinner jazz cruise. It boards at the Toulouse Street wharf by Jackson Square. Book ahead, especially for dinner cruises. It can be windy on deck in November.",
+"纳奇兹号是一艘真正以蒸汽驱动的明轮船，也是新奥尔良唯一的正宗蒸汽船，提供两小时密西西比河游船，船上有现场爵士乐队。",
+"一边听爵士乐，一边驶过法国区和繁忙的港口，还可以参观轮机舱看蒸汽机运转。开船前，蒸汽风琴（用蒸汽汽笛演奏的乐器）会奏乐，整个法国区都听得到。",
+"可选白天的港湾游（较便宜）或晚上的爵士晚餐游。在杰克逊广场旁的图卢兹街码头登船。请提前预订，尤其是晚餐游。11月甲板上风会比较大。","NATCH-iz"],
+n20:["A beloved Mid-City sandwich shop open since 1911, famous for po-boys: New Orleans’ answer to the sub sandwich, served on French bread with a crackly crust and fluffy inside.",
+"The classics are the roast beef “debris” po-boy, soaked in gravy, and the fried shrimp po-boy, “dressed” with lettuce, tomato, pickles and mayo. It’s the kind of place locals argue about, and the patio by the bayou is a nice spot to eat.",
+"Expect a line at lunch, though it moves. Check which days it’s open (it closes one weekday). Grab extra napkins for the roast beef. It’s near City Park, so combine the two.",
+"中城一家自1911年开业、深受喜爱的三明治店，以“穷小子”三明治闻名：这是新奥尔良版的潜艇三明治，用外皮酥脆、内里蓬松的法棍面包。",
+"经典口味是浸满肉汁的烤牛肉碎三明治，以及加了生菜、番茄、酸黄瓜和蛋黄酱的炸虾三明治。这是本地人会争论“哪家最好”的那种店，河湾边的露台很适合坐着吃。",
+"午餐时间要排队，但很快。去之前确认营业日（每周有一个工作日休息）。点烤牛肉的话多拿些纸巾。离城市公园很近，可以一起安排。","DAY-bree (debris)"],
+n21:["A grand turquoise-and-white restaurant in the Garden District, open since 1893 and widely considered one of the finest restaurants in New Orleans.",
+"Weekend jazz brunch is a celebrated local tradition: a jazz trio strolls between tables while you eat dishes like turtle soup, shrimp and grits, and the famous bread pudding soufflé. It’s a splurge, but a memorable family meal.",
+"A dress code applies (no shorts, T-shirts or flip-flops; collared shirts for men). Reserve as early as possible, since brunch fills up weeks ahead. Expect roughly $50 to $80 per person before tip. It’s steps from the streetcar.",
+"花园区一家蓝绿色与白色相间的豪华餐厅，自1893年开业，被普遍认为是新奥尔良最好的餐厅之一。",
+"周末爵士早午餐是备受推崇的本地传统：用餐时爵士三重奏在桌间穿梭演奏，菜品有海龟汤、虾配玉米粥和著名的面包布丁舒芙蕾。虽然价格不菲，但会是难忘的家庭大餐。",
+"有着装要求（不能穿短裤、T恤和人字拖；男士需穿有领衬衫）。请尽早预订，早午餐常常提前几周订满。每人约50到80美元（不含小费）。离有轨电车站只有几步路。",""],
+n22:["A Creole restaurant in the Tremé neighborhood, opened in 1941 and made famous by the late chef Leah Chase, known as the Queen of Creole Cuisine.",
+"During the civil rights movement it was one of the few places where Black and white activists could meet and plan together, and presidents and musicians have dined here. People come for the fried chicken, gumbo and red beans, and for the restaurant’s large collection of African American art.",
+"Hours are limited (mostly lunch on certain weekdays), so check before going and reserve if possible. Casual but neat dress. A short drive or rideshare from the French Quarter.",
+"位于特雷梅街区的克里奥尔餐厅，1941年开业，因已故主厨莉娅·蔡斯而闻名，她被誉为“克里奥尔美食女王”。",
+"民权运动期间，这里是少数黑人和白人活动人士可以一起开会、策划的地方，多位总统和音乐家都曾在此用餐。人们来这里吃炸鸡、秋葵浓汤和红豆饭，也欣赏餐厅收藏的大量非裔美国人艺术作品。",
+"营业时间有限（主要是部分工作日的午餐），去之前请确认，最好预订。穿着休闲整洁即可。从法国区开车或打车很近。","DOO-key"],
+n23:["Founded in 1789, the oldest existing cemetery in New Orleans, where the dead are buried in above-ground tombs because of the city’s high water table.",
+"Rows of whitewashed and crumbling tombs look like a tiny city. Guides tell the stories of famous residents, including voodoo priestess Marie Laveau and Homer Plessy of the landmark Plessy v. Ferguson case, and explain New Orleans burial traditions.",
+"Entry is by guided tour only, so book one (about 1 hour). It sits just outside the French Quarter on Basin Street. Respect the tombs; marking or touching them isn’t allowed.",
+"建于1789年，是新奥尔良现存最古老的墓地。由于这里地下水位高，逝者都安葬在地上的墓穴里。",
+"一排排刷白或斑驳的墓穴看起来像一座小城市。导游会讲述著名“居民”的故事，包括巫毒女祭司玛丽·拉沃，以及著名的普莱西诉弗格森案当事人霍默·普莱西，并介绍新奥尔良的丧葬传统。",
+"只能跟导览团进入，请预订（约1小时）。位于法国区外的贝森街。请尊重墓穴，不可在上面涂写或触摸。",""],
+n24:["A museum about the music born in New Orleans, housed in the Old U.S. Mint (1835), the only mint to have made coins for both the United States and the Confederacy.",
+"Exhibits trace jazz from Congo Square to Louis Armstrong through instruments, photos and recordings, and many afternoons bring free or low-cost concerts in the third-floor performance hall. It’s a calm, inexpensive way to learn the story behind the music you’ll hear all week.",
+"Allow 1 to 1.5 hours. It’s at the downriver end of the French Quarter, near the French Market and Frenchmen Street. Check the concert calendar online.",
+"一座介绍新奥尔良诞生的爵士乐的博物馆，位于1835年建成的旧美国铸币厂内，这是唯一一座同时为美国和南方邦联铸造过硬币的铸币厂。",
+"展览通过乐器、照片和录音，从刚果广场讲到路易斯·阿姆斯特朗；很多下午三楼演出厅还有免费或便宜的音乐会。这是了解你们整周会听到的音乐背后故事的平静又实惠的方式。",
+"约需1到1.5小时。位于法国区下游一端，靠近法国市场和法国人街。可上网查音乐会日程。",""],
+n25:["An 1823 apothecary in the French Quarter, once run by America’s first licensed pharmacist, filled with antique medicine bottles, surgical tools and a beautiful old soda fountain.",
+"It’s small, quirky and a little creepy in a fun way: you’ll see leeches, “gris-gris” voodoo potions and early medical gadgets, and learn how 1800s medicine and yellow fever shaped the city. The courtyard garden of medicinal plants is lovely.",
+"Allow about an hour. The guided tour adds great stories, so check tour times. It’s closed some days of the week, so confirm hours. Inexpensive.",
+"法国区一家建于1823年的老药房，曾由美国第一位持照药剂师经营，里面摆满古董药瓶、手术器械，还有一座漂亮的老式汽水柜台。",
+"小巧、古怪，带点有趣的诡异感：你会看到水蛭、巫毒“护身符”药水和早期医疗器具，了解19世纪的医学和黄热病如何影响这座城市。种满药用植物的庭院花园也很美。",
+"约需1小时。导览会讲很多精彩故事，请查好导览时间。每周有几天闭馆，请确认开放时间。票价便宜。","GREE-gree (gris-gris)"],
+n26:["A 1.4-mile riverfront park along the Mississippi running from the edge of the French Quarter into the Marigny and Bywater, two colorful, artsy neighborhoods.",
+"Walk or bike along the river with skyline views, cross the arched steel bridge locals call the “Rusty Rainbow,” then wander Bywater streets of brightly painted shotgun houses, murals, galleries and laid-back cafés.",
+"Free. Best in morning or late-afternoon light. Some Bywater blocks are quiet, so stay on busier streets and go in daylight.",
+"沿密西西比河岸、长1.4英里的带状公园，从法国区边缘延伸到马里尼和拜沃特这两个色彩缤纷、充满艺术气息的街区。",
+"沿河步行或骑车欣赏天际线，走过被当地人称为“生锈彩虹”的拱形钢桥，再到拜沃特街头逛逛：到处是漆成鲜艳颜色的“猎枪屋”、壁画、画廊和悠闲的咖啡馆。",
+"免费。早上或傍晚光线最好。拜沃特有些街段比较冷清，请走人多的街道，白天去。","BY-water"],
+n27:["A Thanksgiving-morning tradition since 1907 and one of the oldest continuously held races in the U.S.: a 5-mile run or walk through City Park, plus a kids’ half-mile.",
+"Thousands of locals run in turkey hats, pilgrim costumes and team outfits, so it’s as much a party as a race. Your son could run it while you cheer, or the whole family could walk it to earn Thanksgiving dinner.",
+"Thursday, Nov 26. The 5-mile run/walk starts at 8:30 a.m. at Tad Gormley Stadium in City Park. Register online in advance (there’s an entry fee) and arrive early for parking.",
+"自1907年起的感恩节早晨传统，也是美国持续举办时间最长的赛跑之一：在城市公园跑步或健走5英里，另有儿童半英里赛。",
+"成千上万的本地人戴着火鸡帽、穿着清教徒服装或团队服装参赛，与其说是比赛不如说是派对。儿子可以去跑，你们在旁边加油；或者全家一起走完，“挣”一顿感恩节大餐。",
+"11月26日周四。5英里跑步/健走早上8:30从城市公园的塔德·戈姆利体育场出发。需提前网上报名（有报名费），早点到以便停车。",""],
+n28:["Racing since 1872, the Fair Grounds is one of the oldest horse-racing tracks in the country, and the site of Jazz Fest each spring. Thanksgiving Day is its most festive race day.",
+"Locals dress up in big hats and festive outfits, families picnic, and thoroughbreds thunder past the grandstand. It’s a uniquely New Orleans way to spend Thanksgiving, with the Thanksgiving Classic race as the highlight.",
+"Thursday, Nov 26. Grandstand general admission is free, with racing from around noon. Clubhouse buffets and boxes cost extra and need reservations. The drinking age is 21.",
+"费尔格朗兹赛马场自1872年开始举办赛马，是美国最古老的赛马场之一，每年春天的爵士音乐节也在这里举行。感恩节是这里最热闹的比赛日。",
+"本地人戴着大帽子、穿着节日盛装，一家人野餐，在看台上看纯种马飞驰而过。这是非常新奥尔良式的感恩节过法，“感恩节经典赛”是当天的重头戏。",
+"11月26日周四。看台普通入场免费，中午前后开赛。会所自助餐和包厢需另付费并提前预订。饮酒需满21岁。",""],
+n29:["A free downtown parade kicking off the Bayou Classic, the annual Thanksgiving-weekend football rivalry between two historically Black universities, Southern University and Grambling State.",
+"The stars are the marching bands: Southern’s “Human Jukebox” and Grambling’s “World Famed Tiger Marching Band” are famous for their powerful sound, high-stepping dance moves and showmanship. With dance teams and floats, it’s an energetic celebration of HBCU culture.",
+"Thursday, Nov 26 at 3 p.m., starting near the Superdome at Poydras Street and Loyola Avenue. Free. Arrive early for a curb spot; streets close and downtown parking is tight.",
+"市中心的一场免费游行，为“巴尤经典赛”揭幕。这是每年感恩节周末两所传统黑人大学——南方大学和格兰布林州立大学之间的橄榄球对抗赛。",
+"主角是军乐队：南方大学的“人肉点唱机”和格兰布林的“世界闻名老虎军乐队”，以震撼的音色、高抬腿舞步和表演天赋闻名。加上舞蹈队和花车，这是一场充满活力的传统黑人大学文化盛会。",
+"11月26日周四下午3点，从超级巨蛋附近（波伊德拉斯街与洛约拉大道路口）出发。免费。早点到占个路边好位置；道路会封闭，市中心停车很难。","BY-oo (bayou)"],
+d1:["A 26,000-acre unit of Jean Lafitte National Historical Park, about 30 minutes south of the city, protecting swamp, marsh and bayou forest. It’s named for the pirate Jean Lafitte, who once smuggled goods through these waterways.",
+"Raised boardwalk trails lead right into the swamp among cypress, palmettos and hanging moss, with a good chance of spotting alligators, turtles, herons and other wildlife. It’s the real swamp, free, without a boat.",
+"Free entry. Allow about 2 hours; the Bayou Coquille trail is the most popular walk. Gators are less active on cool days but often sun themselves on warm afternoons. Bring bug spray and stay on the boardwalks.",
+"让·拉菲特国家历史公园的一部分，占地2.6万英亩，位于市区以南约30分钟，保护着沼泽、湿地和河湾森林。它以海盗让·拉菲特命名，他曾经通过这些水道走私货物。",
+"高架木栈道带你深入沼泽，周围是柏树、矮棕榈和垂挂的苔藓，很有机会看到鳄鱼、乌龟、苍鹭等野生动物。不用坐船、免费就能看到真正的沼泽。",
+"免费入场。约需2小时；最受欢迎的是可基耶河湾步道。天冷时鳄鱼较少活动，但暖和的下午常出来晒太阳。带上驱蚊液，不要离开木栈道。","bah-ruh-TAR-ee-uh, luh-FEET"],
+d2:["A Louisiana state park just across the river in Westwego, about 15 minutes from downtown, where fresh and salt water meet in swamps and marshes.",
+"It’s the closest easy nature escape: short trails and boardwalks for spotting birds and gators, picnic areas and a boat launch. It’s also known for its floating cabins built right on the bayou.",
+"There’s a small per-person entry fee. Allow 1 to 2 hours. The wave pool is a summer-only feature, so expect a quiet park in November.",
+"位于河对岸韦斯特韦戈的路易斯安那州立公园，离市中心约15分钟，淡水与咸水在这里的沼泽和湿地交汇。",
+"这是最近最方便的亲近自然的地方：短步道和木栈道可以观鸟、看鳄鱼，还有野餐区和码头。这里也以直接建在河湾上的水上小木屋闻名。",
+"每人需付少量门票。约需1到2小时。造浪池只在夏季开放，11月公园会很安静。","sen-YET"],
+d3:["A boat tour into the Honey Island Swamp near Slidell, about 45 minutes from New Orleans: 250 square miles of river swamp, much of it permanently protected, and one of the least-altered river swamps in the country.",
+"Small boats with naturalist guides slip into narrow bayous where you might see alligators, herons, turtles, raccoons and wild hogs. Guides also share local legends, including the Honey Island Swamp Monster, Louisiana’s own Bigfoot.",
+"Tours last about 2 hours. Book ahead and choose a small-boat operator for a quieter, more natural experience. Bring a jacket; it’s chilly on the water in November. Pairs well with a day toward the Gulf Coast.",
+"在新奥尔良约45分钟车程外的斯莱德尔，乘船深入蜂蜜岛沼泽：250平方英里的河流沼泽，其中大部分受到永久保护，也是全美人为改变最少的河流沼泽之一。",
+"小船由博物学导游带领，深入狭窄的河湾，可能看到鳄鱼、苍鹭、乌龟、浣熊和野猪。导游还会讲当地传说，包括“蜂蜜岛沼泽怪物”，也就是路易斯安那版的大脚怪。",
+"行程约2小时。请提前预订，选小船公司体验更安静、更自然。11月水上很冷，带件外套。适合和去墨西哥湾海岸的行程一起安排。",""],
+d4:["An airboat is a flat-bottomed boat pushed by a giant airplane-style propeller, so it can skim at high speed over shallow marsh and through tall grass where regular boats can’t go. Several operators run tours in the Lafitte area south of New Orleans.",
+"It’s the thrill-ride version of a swamp tour: fast turns, spray and wind, with stops to look for alligators and birds. Many teens rank it as the highlight of a Louisiana trip.",
+"It’s very loud, so ear protection is provided. It usually costs more than a regular swamp tour and lasts 1 to 1.5 hours. November rides are cold and windy, so bring a warm layer. Less peaceful than a regular boat tour.",
+"风扇船是一种平底船，由巨大的飞机式螺旋桨推动，可以在浅水湿地上高速滑行，穿过普通船进不去的高草丛。新奥尔良南边的拉菲特一带有好几家公司经营。",
+"这是沼泽游的“刺激版”：急转弯、水花和大风，中途还会停下来找鳄鱼和鸟类。很多青少年都把它列为路易斯安那之行的最大亮点。",
+"噪音很大，会提供护耳设备。通常比普通沼泽游贵，时长1到1.5小时。11月又冷又有风，带件保暖外套。不如普通游船安静。",""],
+d5:["A guided kayak trip through the Manchac Swamp, a cypress-tupelo swamp between Lake Pontchartrain and Lake Maurepas, about 40 minutes northwest of New Orleans.",
+"Paddling quietly lets you glide right up to cypress knees, birds and turtles without a motor scaring them away. Guides share swamp ecology and local ghost stories (Manchac is known for the legend of Julia Brown). It feels like a true adventure.",
+"Most tours need no experience; guides teach the basics. Plan 2 to 3 hours. Wear clothes you don’t mind getting wet, and bring a warm layer. Groups are small, so book ahead.",
+"跟导游划皮划艇穿越曼查克沼泽，这片柏树和紫树沼泽位于庞恰特雷恩湖和莫勒帕湖之间，在新奥尔良西北约40分钟车程。",
+"安静地划桨，可以悄悄靠近柏树膝根、鸟和乌龟，不会被马达声吓跑。导游会讲沼泽生态和当地鬼故事（曼查克以朱莉娅·布朗的传说闻名）。感觉像真正的探险。",
+"大多数行程不需要经验，导游会教基本技巧。约需2到3小时。穿不怕湿的衣服，带件保暖外套。团人数少，请提前预订。","MAN-shack"],
+d6:["A swamp tour company about 25 miles west of New Orleans in LaPlace, running 90-minute narrated tours through its own privately owned wildlife refuge in the Manchac Swamp.",
+"Because the refuge is private, there’s no traffic from other tour boats, so it feels peaceful. Captains are known for Cajun humor and close-up gator sightings, and it’s on the way to the River Road plantations, so it pairs neatly with Whitney or Oak Alley.",
+"Covered pontoon boats make it comfortable for all ages. Book ahead. Gators are less active in cool weather, but the swamp scenery is the main event.",
+"位于新奥尔良以西约25英里拉普拉斯的沼泽游公司，在曼查克沼泽中自有的私人野生动物保护区内提供90分钟讲解游船。",
+"因为保护区是私人的，没有其他游船打扰，感觉很宁静。船长以卡津式幽默和近距离看鳄鱼著称；而且就在去河路种植园的路上，可以和惠特尼或橡树巷种植园一起安排。",
+"有顶棚的平底船，各年龄段都舒适。请提前预订。天冷时鳄鱼较少活动，但沼泽风景本身就是主角。",""],
+d7:["A museum on a former sugar and indigo plantation along River Road, about an hour west of New Orleans, and the only plantation museum in Louisiana focused entirely on the lives of the enslaved people who lived and worked there.",
+"Instead of admiring a mansion, you walk past original slave cabins, a historic church, memorials engraved with the names of thousands of enslaved people and sculptures of children, while first-person accounts tell their stories. It’s emotional and eye-opening, and many visitors call it the most important stop of their trip.",
+"Closed Tuesdays. Open 9:30 a.m. to 4:30 p.m., last entry 3 p.m. Choose a guided tour or the self-guided audio tour (available in several languages). Recommended for ages 12 and up. Allow about 2 hours; paths are gravel and mostly outdoors.",
+"位于新奥尔良以西约1小时的河路上，由昔日甘蔗和靛蓝种植园改建的博物馆，也是路易斯安那唯一完全聚焦于在此生活和劳作的被奴役者的种植园博物馆。",
+"这里不是欣赏豪宅，而是走过原始的奴隶小屋、历史教堂、刻着数千名被奴役者名字的纪念墙和儿童雕塑，同时聆听第一人称的讲述。令人动容、发人深省，很多游客说这是整趟旅行最重要的一站。",
+"周二闭馆。开放时间早上9:30至下午4:30，最后入场3点。可选导览或自助语音导览（有多种语言）。建议12岁以上参观。约需2小时，多为户外碎石路。",""],
+d8:["A National Historic Landmark on River Road, about an hour west of New Orleans, famous for a quarter-mile avenue of 28 live oaks, roughly 300 years old, leading to an 1839 Greek Revival mansion.",
+"The view down the oak alley is one of the most photographed scenes in the South. Visitors tour the “Big House,” walk the gardens and visit a reconstructed slave quarters and exhibit that tells the story of the enslaved people who built and worked the plantation.",
+"Open daily from about 8:30 a.m. to 5 p.m. Mansion tours run at assigned times and can sell out, so buy tickets online. Allow at least 2 hours. Whitney is a short drive away, and many people visit Whitney first, then Oak Alley.",
+"位于新奥尔良以西约1小时河路上的国家历史地标，以一条四分之一英里长、由28棵约300年树龄的橡树组成的林荫道闻名，尽头是一座1839年的希腊复兴式庄园大宅。",
+"橡树长廊的景色是美国南方最常被拍摄的画面之一。游客可以参观“大宅”、漫步花园，并参观复建的奴隶居所和展览，了解建造和经营这座种植园的被奴役者的故事。",
+"每天约早上8:30至下午5点开放。大宅导览按指定时间进行，可能售罄，请网上购票。至少预留2小时。离惠特尼种植园车程很短，很多人先去惠特尼，再去橡树巷。",""],
+d9:["A 2,800-acre state park on the north shore of Lake Pontchartrain in Mandeville, about 45 minutes from New Orleans via the 24-mile Lake Pontchartrain Causeway, one of the longest bridges over water in the world.",
+"It has a sandy lakefront beach, ruins of an 1829 sugar mill, oak-shaded nature trails, a marsh boardwalk and lakefront cabins. More than 400 species of birds and other animals live here, and sunsets over the lake are spectacular.",
+"Small per-person entry fee (about $3). Allow a half day, or stay overnight in a cabin. Combine it with the Tammany Trace bike trail, which runs through the park, and Northlake Nature Center next door.",
+"位于曼德维尔、庞恰特雷恩湖北岸占地2800英亩的州立公园，从新奥尔良开过24英里长的跨湖大桥（世界最长的水上桥梁之一）约45分钟。",
+"这里有湖边沙滩、1829年制糖厂遗迹、橡树成荫的自然步道、湿地木栈道和湖边小木屋。园内有400多种鸟类和其他动物，湖上的日落非常壮观。",
+"每人约3美元门票。安排半天，或在小木屋住一晚。可与穿过公园的坦慕尼小径骑行道和隔壁的北湖自然中心一起安排。","FOUNT-in-blue (local way)"],
+d10:["A nature preserve right next to Fontainebleau State Park, with boardwalks and trails through swamp, pine forest and hardwood forest.",
+"It’s quiet and uncrowded, with a beaver pond, wading birds and a good chance of spotting turtles and other wildlife. An easy, pleasant walk if you’re already on the Northshore.",
+"Free (donations welcome). Allow 1 to 2 hours. Trails can be muddy after rain, so wear shoes you don’t mind getting dirty.",
+"紧邻枫丹白露州立公园的自然保护区，有木栈道和步道穿过沼泽、松林和阔叶林。",
+"安静、人少，有河狸池塘和涉禽，很可能看到乌龟等野生动物。如果已经到了北岸，这里是轻松愉快的散步去处。",
+"免费（欢迎捐款）。约需1到2小时。雨后步道可能泥泞，穿不怕脏的鞋。",""],
+d11:["A 31-mile paved trail built on an old railroad line, linking the Northshore towns of Slidell, Mandeville, Covington and Abita Springs.",
+"It’s flat, shady and easy, perfect for a relaxed family bike ride past bayous, through small towns and into Fontainebleau State Park. Ride between Mandeville and Abita Springs and you can stop at the quirky Abita Mystery House.",
+"Rent bikes in Mandeville or Abita Springs (reserve ahead in case supply is limited). A few hours covers a nice out-and-back ride. Look for trailheads with parking and restrooms.",
+"一条31英里长的柏油小径，由旧铁路改建，连接北岸的斯莱德尔、曼德维尔、卡温顿和阿比塔泉等小镇。",
+"地势平坦、绿荫多、骑起来轻松，非常适合全家悠闲骑车，沿途经过河湾、穿过小镇，还能骑进枫丹白露州立公园。在曼德维尔和阿比塔泉之间骑行，可以顺便去古怪有趣的阿比塔神秘屋。",
+"可在曼德维尔或阿比塔泉租自行车（车辆有限，最好预订）。往返骑几个小时就很不错。留意有停车场和洗手间的步道入口。","TAM-uh-nee"],
+d12:["A small roadside museum in Abita Springs, officially the UCM Museum (“You See ’Em”), packed with folk art, odd inventions, dioramas and homemade “creatures” built from found objects.",
+"It’s pure Louisiana weirdness: buildings covered in mosaic shards, a model town with moving parts and fake hybrid animals like the “bassigator.” A quick, funny stop that teens tend to love.",
+"Inexpensive, about 30 to 60 minutes. Pair it with the Tammany Trace or lunch in Abita Springs.",
+"阿比塔泉镇的一座小型路边博物馆，正式名称是 UCM 博物馆（谐音“你看见了”），里面塞满民间艺术、奇怪发明、微缩场景，还有用捡来的物件拼成的自制“怪物”。",
+"这是纯正的路易斯安那式怪趣：贴满马赛克碎片的建筑、会动的模型小镇，还有“鲈鱼鳄”这样的假杂交动物。适合快速停留、哈哈一笑，青少年通常很喜欢。",
+"门票便宜，约30到60分钟。可与坦慕尼小径骑行或在阿比塔泉吃午餐一起安排。","uh-BEE-tuh"],
+d13:["One of the largest free-roaming wildlife preserves of its kind in the country, in Folsom on the Northshore about an hour from New Orleans, home to over 2,000 exotic, endangered and threatened animals.",
+"You ride in a canopy-covered wagon while giraffes, zebras, camels, bison, antelope and more walk right up to you, and you can hand-feed them from a cup of feed. Coming nose to nose with a giraffe is unforgettable.",
+"Wagon safaris run on a set schedule and last about 1.5 to 2 hours; book ahead, especially on weekends. Buy a feed cup, because the animals expect it. It’s all outdoors, so dress for mud and weather.",
+"位于北岸福尔瑟姆、距新奥尔良约1小时，是全美同类型中最大的自由放养野生动物保护区之一，有2000多只外来、濒危和受威胁的动物。",
+"坐在有顶篷的马车上，长颈鹿、斑马、骆驼、野牛、羚羊等会直接走到你面前，你可以拿着饲料杯亲手喂它们。和长颈鹿脸对脸的体验令人难忘。",
+"马车游按固定时间出发，约1.5到2小时；请提前预订，尤其是周末。记得买饲料杯，动物们很期待。全程户外，穿着要适合泥地和天气。",""],
+d14:["Every fall weekend, the countryside near Hammond, about an hour from New Orleans, becomes a 16th-century English village with more than 600 artisans, performers and craftspeople in costume.",
+"Watch knights joust on horseback, see glassblowers and blacksmiths at work, catch shows on stages all over the village and eat giant turkey legs. Each weekend has a theme (like pirates or Vikings), and many visitors come in costume.",
+"Open Saturdays and Sundays, roughly 8:45 a.m. to 5 p.m., rain or shine; in past years it also opened the Friday after Thanksgiving. Admission is about $15 to $45. Plan a half day. Sunday, Nov 22 is your surest chance.",
+"每年秋季周末，距新奥尔良约1小时的哈蒙德乡间会变成16世纪的英国村庄，600多位工匠、表演者和手艺人身着古装。",
+"可以看骑士骑马比武、看吹玻璃和打铁工匠现场制作、在村里各个舞台看表演，还能啃超大火鸡腿。每个周末都有主题（比如海盗或维京人），很多游客会穿古装来。",
+"周六和周日开放，大约早上8:45到下午5点，风雨无阻；往年感恩节后的周五也开放。门票约15到45美元。安排半天。11月22日周日最稳妥。",""],
+d15:["Two charming beach towns on the Mississippi Gulf Coast: Bay St. Louis (about 1 hour east) and Ocean Springs (about 1.5 hours east), with long white-sand beaches facing the Gulf.",
+"Bay St. Louis has a walkable Old Town with shops, galleries and waterfront seafood. Ocean Springs is an artsy town with oak-lined streets, the Walter Anderson Museum of Art and trails at the Davis Bayou area of Gulf Islands National Seashore. A nice change of state and scenery.",
+"A full-day trip. Beaches are calm and uncrowded in November but too cool for most swimmers. Combine it with the Honey Island swamp tour in Slidell on the way.",
+"密西西比州墨西哥湾海岸的两座迷人海滨小镇：圣路易斯湾（向东约1小时）和海洋泉（向东约1.5小时），都有面朝墨西哥湾的长长白沙滩。",
+"圣路易斯湾的老城区适合步行，有小店、画廊和海边海鲜餐厅。海洋泉是充满艺术气息的小镇，街道两旁是橡树，有沃尔特·安德森艺术博物馆，还有海湾群岛国家海岸戴维斯河湾区的步道。换个州、换种风景。",
+"需要一整天。11月海滩平静人少，但对大多数人来说太冷不适合游泳。可以顺路先去斯莱德尔的蜂蜜岛沼泽游。",""]
+};
+
+const SECS = {
+  r:{en:"ON THE WAY",zh:"途中景点",tab_en:"On the way",tab_zh:"途中",sub_en:"Stops along I-10 between Houston and New Orleans.",sub_zh:"休斯顿到新奥尔良 I-10 沿途的停靠点。"},
+  n:{en:"NEW ORLEANS",zh:"新奥尔良",tab_en:"New Orleans",tab_zh:"新奥尔良",sub_en:"Things to do in the city, including Thanksgiving Day events.",sub_zh:"市区活动，包括感恩节当天的活动。"},
+  d:{en:"DAY TRIPS",zh:"一日游",tab_en:"Day trips",tab_zh:"一日游",sub_en:"Nature and small towns within about 90 minutes of the city.",sub_zh:"距市区约90分钟车程内的自然景观和小镇。"},
+  res:{en:"RESULTS",zh:"投票结果",tab_en:"Results",tab_zh:"结果"}
+};
+const CATS = {food:["Food","美食"],sight:["Sights","景点"],nature:["Nature","自然"],museum:["Museum","博物馆"],music:["Music & nightlife","音乐与夜生活"],tour:["Tours & experiences","体验活动"]};
+const TAGS = {thu:["Thanksgiving Day only","仅限感恩节当天"],sun:["Weekends (maybe Fri 11/27)","周末开放（11/27周五或开放）"],tue:["Closed Tuesdays","周二闭馆"],tgv:["Closed Thanksgiving Day","感恩节当天闭馆"]};
+const PRICE = [["Free","免费"],["$","$"],["$$","$$"],["$$$","$$$"]];
+const WHO = {roger:["Roger","Roger"],ling:["Ling","Ling"],son:["Son","儿子"]};
+
+const T = {
+ en:{tagline:"Trip picks for Nov 21–27. Vote on what we should do.",lang:"中文",whoPrefix:"Voting as",pick:"Pick your name",
+   want:"Want",maybe:"Maybe",skip:"Skip",must:"Must-do",note:"Add a note (optional)",map:"Map",
+   photos:"Photos",watch:"Watch",videos:"Videos",site:"Website",searchWeb:"Search web",
+   what:"What it is",why:"Why people go",tips:"Good to know",sayIt:"Say it:",addPhoto:"Add photo",swipe:n=>`Swipe to see all ${n} photos`,
+   uploading:"Uploading photo…",uploaded:"Photo added.",uploadFail:"Couldn’t add that photo. Try a different image.",close:"Close",source:"Source",
+   curNote:"Outlined Watch and Website buttons go to hand-picked pages. The rest open a search.",
+   rated:(a,b)=>`You’ve rated ${a} of ${b}`,unrated:"Not rated yet",allDone:"You’ve rated everything here. Nice work.",
+   hidden:n=>`${n} ${n===1?"person has":"people have"} voted. Vote to see theirs.`,
+   hours:"Check hours before going: some places close Mondays or Tuesdays, and many change hours on Thanksgiving.",
+   legend:"Prices are rough, per person: $ under $20, $$ about $20–50, $$$ over $50.",
+   sLoading:"Connecting to shared votes…",sSync:"Your votes sync to this shared page, so the whole family sees them.",
+   sLocal:"Your votes are saved on this phone. When you’re done, open Results, tap Copy all votes, and text it to Roger.",
+   sStale:"Can’t reach the shared votes yet. Your votes are still saved on this phone.",
+   sheetTitle:"Who’s voting?",sheetSub:"Pick your name so everyone can see whose votes are whose.",otherPh:"Someone else? Type a name",otherGo:"Save",
+   progress:"Progress",mustH:"Must-dos",topH:"Family favorites",splitH:"Split decisions",skipH:"Probably skip",exportH:"Send to Claude",
+   copy:"Copy all votes",copied:"Copied. Paste it into the chat with Claude.",copyFail:"Couldn’t copy automatically. Select the text below and copy it.",
+   exportHelp:"This text includes everyone’s votes, stars and notes in a format Claude can plan from.",
+   exportLocal:"Only this phone’s votes are included because syncing is off.",
+   none:"Nothing here yet.",score:"score",of:"of",starredBy:"starred by"},
+ zh:{tagline:"11月21日至27日行程投票，选出我们想去的地方。",lang:"EN",whoPrefix:"投票人",pick:"选择你的名字",
+   want:"想去",maybe:"都行",skip:"不去",must:"必去",note:"添加备注（可选）",map:"地图",
+   photos:"照片",watch:"观看视频",videos:"搜索视频",site:"官网",searchWeb:"搜索网页",
+   what:"这是什么",why:"为什么值得去",tips:"实用提示",sayIt:"英文读音：",addPhoto:"添加照片",swipe:n=>`左右滑动查看全部${n}张照片`,
+   uploading:"正在上传照片…",uploaded:"照片已添加。",uploadFail:"照片添加失败，请换一张图片试试。",close:"关闭",source:"来源",
+   curNote:"带边框的“观看视频”和“官网”按钮是精选链接，其余按钮会打开搜索结果。",
+   rated:(a,b)=>`你已评价 ${a} / ${b} 项`,unrated:"只看未评价",allDone:"这一部分你已经全部评价完了，很棒！",
+   hidden:n=>`已有 ${n} 人投票。你投票后就能看到他们的选择。`,
+   hours:"出发前请确认营业时间：有些地方周一或周二休息，感恩节当天很多地方营业时间会变。",
+   legend:"价格为每人大约费用：$ 低于20美元，$$ 约20–50美元，$$$ 高于50美元。",
+   sLoading:"正在连接共享投票…",sSync:"你的投票会同步到这个共享页面，全家都能看到。",
+   sLocal:"投票保存在这部手机上。完成后请打开“结果”页，点击“复制全部投票”，然后发给 Roger。",
+   sStale:"暂时连不上共享投票。你的投票仍保存在这部手机上。",
+   sheetTitle:"谁在投票？",sheetSub:"选择你的名字，这样大家能看到每个人的投票。",otherPh:"其他人？请输入名字",otherGo:"保存",
+   progress:"进度",mustH:"必去清单",topH:"全家最爱",splitH:"意见分歧",skipH:"可能不去",exportH:"发送给 Claude",
+   copy:"复制全部投票",copied:"已复制，请粘贴到和 Claude 的对话中。",copyFail:"无法自动复制，请手动选择下面的文字并复制。",
+   exportHelp:"这段文字包含所有人的投票、必去标记和备注（英文格式，方便 Claude 规划行程）。",
+   exportLocal:"同步未开启，所以只包含这部手机上的投票。",
+   none:"暂无内容。",score:"分数",of:"/",starredBy:"标记必去："}
+};
+
+const LS={get(k,d){try{const v=localStorage.getItem("nolapicks:"+k);return v==null?d:JSON.parse(v)}catch(e){return d}},
+          set(k,v){try{localStorage.setItem("nolapicks:"+k,JSON.stringify(v))}catch(e){}}};
+
+let lang = LS.get("lang", ((navigator.language||"").toLowerCase().startsWith("zh")) ? "zh" : "en");
+let tab = LS.get("tab","r");
+let onlyUnrated = false;
+let mine = LS.get("mine",{who:"",ratings:{},t:0});
+if(!mine || typeof mine!=="object" || !mine.ratings) mine={who:"",ratings:{},t:0};
+let others = {};
+let mode = "loading";
+let db=null, uid=null;
+let pendingRender=false;
+
+const L = () => T[lang];
+const esc = s => String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const tTime = s => lang==="en" ? s : s.replace("Half day","半天").replace("Full day","一天").replace(" min","分钟").replace(" hr","小时");
+const whoName = w => { if(!w) return lang==="zh"?"某人":"Someone"; if(WHO[w]) return WHO[w][lang==="zh"?1:0]; return w; };
+const whoEn = w => !w ? "Someone" : (WHO[w] ? WHO[w][0] : w);
+const it = id => ITEMS.find(x=>x[0]===id);
+const nm = x => lang==="zh" ? x[6] : x[5];
+
+function voters(){
+  const list=[{id:"me",who:mine.who,ratings:mine.ratings||{}}];
+  Object.keys(others).forEach(k=>{const o=others[k]; if(o&&o.ratings) list.push({id:k,who:o.who||"",ratings:o.ratings});});
+  return list;
+}
+function hasRating(r){ return r && (r.v===1||r.v===0||r.v===-1||r.s||(r.n&&r.n.trim())); }
+
+/* ---------- header ---------- */
+function renderHeader(){
+  document.documentElement.lang = lang==="zh" ? "zh-CN" : "en";
+  document.getElementById("tagline").textContent = L().tagline;
+  document.getElementById("langBtn").textContent = L().lang;
+  document.getElementById("whoBtn").textContent = mine.who ? whoName(mine.who) : L().pick;
+  const tabs=document.getElementById("tabs");
+  tabs.innerHTML = ["r","n","d","res"].map(k=>`<button role="tab" data-tab="${k}" aria-selected="${tab===k}">${esc(SECS[k][lang==="zh"?"tab_zh":"tab_en"])}</button>`).join("");
+  const st=document.getElementById("status");
+  st.className="status "+mode;
+  document.getElementById("statusText").textContent = {loading:L().sLoading,sync:L().sSync,local:L().sLocal,stale:L().sStale}[mode];
+}
+function tiles(text){
+  return `<div class="tiles sec" aria-label="${esc(text)}">`+[...text].map(ch=>ch===" "?`<span class="gap"></span>`:`<span>${esc(ch)}</span>`).join("")+`</div>`;
+}
+
+/* ---------- list ---------- */
+function mark(r){
+  if(!r) return "";
+  let s="";
+  if(r.v===1) s+=`<span class="mk up">👍</span>`;
+  else if(r.v===0) s+=`<span class="mk side"><span class="side">👍</span></span>`;
+  else if(r.v===-1) s+=`<span class="mk down">👎</span>`;
+  if(r.s) s+=` <span class="mk star">★</span>`;
+  return s;
+}
+const STATIC_PHOTOS={"n10": [{"src": "photos/n10.jpg", "k": 0, "n": 3, "c": "Photo: 4nitsirk (CC BY-SA 2.0)", "s": "https://commons.wikimedia.org/wiki/File%3AGarden_District_in_New_Orleans_%287%29.jpg"}, {"src": "photos/n10.jpg", "k": 1, "n": 3, "c": "Photo: Daniel Hartwig (CC BY 2.0)", "s": "https://commons.wikimedia.org/wiki/File%3AGarden_District%2C_New_Orleans_November_2024_-_Grand_Victorian.jpg"}, {"src": "photos/n10.jpg", "k": 2, "n": 3, "c": "Photo: Infrogmation of New Orleans (CC BY-SA 4.0)", "s": "https://commons.wikimedia.org/wiki/File%3AGarden_District_house%2C_New_Orleans%2C_April_2023_-_1.jpg"}], "n11": [{"src": "photos/n11.jpg", "k": 0, "n": 3, "c": "Photo: Infrogmation of New Orleans (CC BY-SA 4.0)", "s": "https://commons.wikimedia.org/wiki/File%3AMagazine_Street_Shops_New_Orleans_Dec_2016.jpg"}, {"src": "photos/n11.jpg", "k": 1, "n": 3, "c": "Photo: Infrogmation of New Orleans (CC BY-SA 4.0)", "s": "https://commons.wikimedia.org/wiki/File%3AMagazine_Street%2C_Uptown_New_Orleans%2C_17_October_2022_-_Shops_up_from_Jefferson_Avenue.jpg"}, {"src": "photos/n11.jpg", "k": 2, "n": 3, "c": "Photo: Infrogmation of New Orleans (CC BY-SA 4.0)", "s": "https://commons.wikimedia.org/wiki/File%3AMagazine_Street_by_Toledano_Street%2C_Uptown_New_Orleans%2C_4_January_2023_-_Seafood_Shop.jpg"}], "n12": [{"src": "photos/n12.jpg", "k": 0, "n": 3, "c": "Photo: Fred Merchán (CC BY-SA 2.0)", "s": "https://commons.wikimedia.org/wiki/File%3AAudubon_Zoo%2C_New_Orleans%2C_c_1990_-_1.jpg"}, {"src": "photos/n12.jpg", "k": 1, "n": 3, "c": "Photo: angela n. (CC BY 2.0)", "s": "https://commons.wikimedia.org/wiki/File%3AAudubon_Zoo_New_Orleans_October_2012_-_Tigre.jpg"}, {"src": "photos/n12.jpg", "k": 2, "n": 3, "c": "Photo: edenpictures (CC BY 2.0)", "s": "https://commons.wikimedia.org/wiki/File%3AToucan_in_Audubon_Zoo_New_Orleans_2023.jpg"}], "n13": [{"src": "photos/n13.jpg", "k": 0, "n": 3, "c": "Photo: Gary J. Wood (CC BY-SA 2.0)", "s": "https://commons.wikimedia.org/wiki/File%3AAudubon_Aquarium_of_the_Americas%2C_New_Orleans_April_2015_-_Tunnel.jpg"}, {"src": "photos/n13.jpg", "k": 1, "n": 3, "c": "Photo: Gary J. Wood (CC BY-SA 2.0)", "s": "https://commons.wikimedia.org/wiki/File%3AAudubon_Aquarium_of_the_Americas%2C_New_Orleans_April_2015_-_Sharks.jpg"}, {"src": "photos/n13.jpg", "k": 2, "n": 3, "c": "Aquarium tank · Photo: Steven Fine (CC BY-SA 4.0)", "s": "https://commons.wikimedia.org/wiki/File%3AFish_Tank_at_the_Audubon_Aquarium_of_the_Americas_in_New_Orleans.jpg"}], "n14": [{"src": "photos/n14.jpg", "k": 0, "n": 3, "c": "Photo: Richard Martin from North Chesterfield, Virginia, USA (CC BY 2.0)", "s": "https://commons.wikimedia.org/wiki/File%3AMardi_Gras_World_%288542980567%29.jpg"}, {"src": "photos/n14.jpg", "k": 1, "n": 3, "c": "Photo: scott*eric (CC BY 2.0)", "s": "https://commons.wikimedia.org/wiki/File%3ANew_Orleans_March_2007_-_Mardi_Gras_World.jpg"}, {"src": "photos/n14.jpg", "k": 2, "n": 3, "c": "Photo: Infrogmation of New Orleans (CC BY 2.0)", "s": "https://commons.wikimedia.org/wiki/File%3ACarnival_party_at_Mardi_Gras_World_New_Orleans_2007_-_Squid_and_Bird.jpg"}], "n15": [{"src": "photos/n15.jpg", "k": 0, "n": 3, "c": "Photo: Jeremy Thompson (CC BY 4.0)", "s": "https://commons.wikimedia.org/wiki/File%3ACity_Park%2C_New_Orleans_23_November_2025_-_Scupture_Garden_long_bridge.jpg"}, {"src": "photos/n15.jpg", "k": 1, "n": 3, "c": "Photo: William Marnoch (CC BY 2.0)", "s": "https://commons.wikimedia.org/wiki/File%3ACity_Park%2C_New_Orleans_2019_-_NOMA_Scupture_Garden_lagoon.jpg"}, {"src": "photos/n15.jpg", "k": 2, "n": 3, "c": "Photo: Stockstill, Tiffany (CC BY-SA 4.0)", "s": "https://commons.wikimedia.org/wiki/File%3ASculpture_Garden_Noma.jpg"}], "n16": [{"src": "photos/n16.jpg", "k": 0, "n": 3, "c": "Photo: Miguel Discart (Photos Vrac) (CC BY-SA 2.0)", "s": "https://commons.wikimedia.org/wiki/File%3ANight_tour_of_the_French_Quarter%2C_New_Orleans%2C_2024-02-10_-_22.jpg"}, {"src": "photos/n16.jpg", "k": 1, "n": 3, "c": "Photo: Jeremy Thompson (CC BY 4.0)", "s": "https://commons.wikimedia.org/wiki/File%3ANew_Orleans_Historic_Voodoo_Museum%2C_November_2025_-_1.jpg"}, {"src": "photos/n16.jpg", "k": 2, "n": 3, "c": "Photo: Miguel Discart (Photos Vrac) (CC BY-SA 2.0)", "s": "https://commons.wikimedia.org/wiki/File%3ANight_tour_of_the_French_Quarter%2C_New_Orleans%2C_2024-02-10_-_26.jpg"}], "n17": [{"src": "photos/n17.jpg", "k": 0, "n": 3, "c": "Photo: Tulane Public Relations (CC BY 2.0)", "s": "https://commons.wikimedia.org/wiki/File%3ANOLA_Cooking_School-4_%286146813267%29.jpg"}, {"src": "photos/n17.jpg", "k": 1, "n": 3, "c": "Photo: Tulane Public Relations (CC BY 2.0)", "s": "https://commons.wikimedia.org/wiki/File%3ANOLA_Cooking_School-5_%286147371664%29.jpg"}, {"src": "photos/n17.jpg", "k": 2, "n": 3, "c": "Photo: Ajay Suresh from New York, NY, USA (CC0)", "s": "https://commons.wikimedia.org/wiki/File%3ANew_Orleans_December_2016_-_New_Orleans_School_of_Cooking_Praline_Shop.jpg"}], "n18": [{"src": "photos/n18.jpg", "k": 0, "n": 3, "c": "Photo: Infrogmation (CC BY-SA 4.0)", "s": "https://commons.wikimedia.org/wiki/File%3ACanal_Street_Algiers_Point_Ferry%2C_New_Orleans%2C_5_May_2016_-_01.jpg"}, {"src": "photos/n18.jpg", "k": 1, "n": 3, "c": "Photo: MusikAnimal (CC BY-SA 4.0)", "s": "https://commons.wikimedia.org/wiki/File%3ACanal_Street_Ferry_landing_in_New_Orleans.JPG"}, {"src": "photos/n18.jpg", "k": 2, "n": 3, "c": "Photo: Infrogmation of New Orleans (CC BY 2.0)", "s": "https://commons.wikimedia.org/wiki/File%3AAlgiers_Point_New_Orleans_June_2016_along_Patterson_01.jpg"}], "n19": [{"src": "photos/n19.jpg", "k": 0, "n": 3, "c": "Photo: Bernard Spragg. NZ from Christchurch, New Zealand (CC0)", "s": "https://commons.wikimedia.org/wiki/File%3ASteamboat_Natchez._New_Orleans._%2848759732042%29.jpg"}, {"src": "photos/n19.jpg", "k": 1, "n": 3, "c": "Photo: Spatms (CC BY-SA 4.0)", "s": "https://commons.wikimedia.org/wiki/File%3ANatchez_Steamboat%2C_New_Orleans%2C_LA.jpg"}, {"src": "photos/n19.jpg", "k": 2, "n": 3, "c": "Photo: JennyCuervo (CC BY-SA 4.0)", "s": "https://commons.wikimedia.org/wiki/File%3AMississippi_River_in_Louisiana._Steamboat_Natchez.jpg"}], "n1": [{"src": "photos/n1.jpg", "k": 0, "n": 3, "c": "Photo: Jeremy Thompson (CC BY 4.0)", "s": "https://commons.wikimedia.org/wiki/File%3ACafe_du_Monde%2C_French_Market%2C_New_Orleans_22_November_2025_-_1.jpg"}, {"src": "photos/n1.jpg", "k": 1, "n": 3, "c": "Photo: Jeremy Thompson (CC BY 4.0)", "s": "https://commons.wikimedia.org/wiki/File%3ACafe_du_Monde%2C_French_Market%2C_New_Orleans_22_November_2025_-_Beignets.jpg"}, {"src": "photos/n1.jpg", "k": 2, "n": 3, "c": "Photo: John Cummings (CC BY-SA 3.0)", "s": "https://commons.wikimedia.org/wiki/File%3ACaf%C3%A9_du_Monde_in_New_Orleans_%286%29.JPG"}], "n20": [{"src": "photos/n20.jpg", "k": 0, "n": 3, "c": "Photo: Charles Mims (CC BY 2.0)", "s": "https://commons.wikimedia.org/wiki/File%3AParkway_Bakery_New_Orleans_November_2016_01.jpg"}, {"src": "photos/n20.jpg", "k": 1, "n": 3, "c": "Photo: Infrogmation of New Orleans (CC BY-SA 3.0)", "s": "https://commons.wikimedia.org/wiki/File%3AShrimp_Po-boy_Parkway_NOLA.JPG"}, {"src": "photos/n20.jpg", "k": 2, "n": 3, "c": "Photo: Infrogmation (CC BY-SA 4.0)", "s": "https://commons.wikimedia.org/wiki/File%3AParkway_Bakery%2C_New_Orleans_Sept_2026_-_3.jpg"}], "n21": [{"src": "photos/n21.jpg", "k": 0, "n": 2, "c": "Photo: Daniel Hartwig (CC BY 2.0)", "s": "https://commons.wikimedia.org/wiki/File%3ACommander%27s_Palace%2C_Garden_District_New_Orleans%2C_November_2024.jpg"}, {"src": "photos/n21.jpg", "k": 1, "n": 2, "c": "Photo: naviniea (CC BY-SA 2.0)", "s": "https://commons.wikimedia.org/wiki/File%3APancakes_at_Commander%27s_Palace_restaurant%2C_New_Orleans.jpg"}], "n22": [{"src": "photos/n22.jpg", "k": 0, "n": 3, "c": "Photo: Infrogmation (CC BY-SA 4.0)", "s": "https://commons.wikimedia.org/wiki/File%3ADooky_Chase%27s_Restaurant%2C_New_Orleans%2C_6_May_2026.jpg"}, {"src": "photos/n22.jpg", "k": 1, "n": 3, "c": "Photo: Kent Wang (CC BY-SA 2.0)", "s": "https://commons.wikimedia.org/wiki/File%3AGumbo_-_Dooky_Chase%27s%2C_New_Orleans.jpg"}, {"src": "photos/n22.jpg", "k": 2, "n": 3, "c": "Photo: Kent Wang (CC BY-SA 2.0)", "s": "https://commons.wikimedia.org/wiki/File%3AFried_chicken_-_Dooky_Chase%27s%2C_New_Orleans.jpg"}], "n23": [{"src": "photos/n23.jpg", "k": 0, "n": 3, "c": "Photo: Tom Hilton (CC BY 2.0)", "s": "https://commons.wikimedia.org/wiki/File%3ASt._Louis_Cemetery_No_1_New_Orleans%2C_27_August_2022_-_01.jpg"}, {"src": "photos/n23.jpg", "k": 1, "n": 3, "c": "Photo: Daquella manera (CC0)", "s": "https://commons.wikimedia.org/wiki/File%3ASaint_Louis_Cemetery_1_-_New_Orleans_July_2023.jpg"}, {"src": "photos/n23.jpg", "k": 2, "n": 3, "c": "Photo: miguel.discart (CC BY-SA 2.0)", "s": "https://commons.wikimedia.org/wiki/File%3ASt_Louis_Cemetery_One%2C_New_Orleans_2024-02-08_-_36.jpg"}], "n24": [{"src": "photos/n24.jpg", "k": 0, "n": 3, "c": "Photo: ajay_suresh (CC BY 4.0)", "s": "https://commons.wikimedia.org/wiki/File%3ANew_Orleans_Jazz_Museum_-_Old_Mint_building_from_Esplanade_Avenue%2C_February_2026.jpg"}, {"src": "photos/n24.jpg", "k": 1, "n": 3, "c": "Photo: Jeremy Thompson (CC BY 2.0)", "s": "https://commons.wikimedia.org/wiki/File%3ANew_Orleans_Jazz_Museum_in_the_Old_Mint_Building_March_2018_-_Fats_Domino%27s_Piano.jpg"}, {"src": "photos/n24.jpg", "k": 2, "n": 3, "c": "Photo: Jeremy Thompson (CC BY 2.0)", "s": "https://commons.wikimedia.org/wiki/File%3ANew_Orleans_Jazz_Museum_in_the_Old_Mint_Building_March_2018_-_Louis_Armstrong_Childhood_Cornet.jpg"}], "n25": [{"src": "photos/n25.jpg", "k": 0, "n": 3, "c": "Photo: Infrogmation of New Orleans (CC BY-SA 3.0)", "s": "https://commons.wikimedia.org/wiki/File%3ANOPharmacyMuseumBldgExterior28July2008.jpg"}, {"src": "photos/n25.jpg", "k": 1, "n": 3, "c": "Photo: Jeremy Thompson (CC BY 4.0)", "s": "https://commons.wikimedia.org/wiki/File%3ANew_Orleans_Pharmacy_Museum%2C_November_2025_-_16.jpg"}, {"src": "photos/n25.jpg", "k": 2, "n": 3, "c": "Photo: Miguel Tremblay (CC0)", "s": "https://commons.wikimedia.org/wiki/File%3ANew_Orleans_Pharmacy_Museum_2.jpg"}], "n26": [{"src": "photos/n26.jpg", "k": 0, "n": 3, "c": "Photo: Jeff Hitchcock (CC BY 2.0)", "s": "https://commons.wikimedia.org/wiki/File%3ACrescent_Park%2C_New_Orleans%2C_November_2019_-_01.jpg"}, {"src": "photos/n26.jpg", "k": 1, "n": 3, "c": "Photo: Infrogmation of New Orleans (CC BY 2.0)", "s": "https://commons.wikimedia.org/wiki/File%3ACB10Jan14_MuralHouseBackPorch.jpg"}, {"src": "photos/n26.jpg", "k": 2, "n": 3, "c": "Photo: Infrogmation of New Orleans (CC BY-SA 4.0)", "s": "https://commons.wikimedia.org/wiki/File%3ACrescent_Park_Upper_Bridge_New_Orleans_03.jpg"}], "n27": [{"src": "photos/n27.jpg", "k": 0, "n": 2, "c": "Race in City Park (not Turkey Day) · Photo: Bart Everson (CC BY 2.0)", "s": "https://commons.wikimedia.org/wiki/File%3AOpen_Race_City_Park_New_Orleans.jpg"}, {"src": "photos/n27.jpg", "k": 1, "n": 2, "c": "Tad Gormley Stadium, where the race starts · Photo: Spatms (CC BY-SA 3.0)", "s": "https://commons.wikimedia.org/wiki/File%3ATad_Gormley_Stadium_%28New_Orleans%29_-_Main_Entrance.jpg"}], "n2": [{"src": "photos/n2.jpg", "k": 0, "n": 3, "c": "Photo: Clark Mills (Public domain)", "s": "https://commons.wikimedia.org/wiki/File%3AJackson_Square.jpg"}, {"src": "photos/n2.jpg", "k": 1, "n": 3, "c": "Photo: No machine-readable author provided. Krakers assumed (based on copyright claims).\n\n (Corrected by User:StAn) (CC BY-SA 3.0)", "s": "https://commons.wikimedia.org/wiki/File%3ACathedral_new_orleans.jpg"}, {"src": "photos/n2.jpg", "k": 2, "n": 3, "c": "Photo: Deceased parent of Infrogmation.\n\nPlease credit \"Family photos of Infrogmation\". (CC BY-SA 4.0)", "s": "https://commons.wikimedia.org/wiki/File%3AJackson_Square_Gates_and_Statue%2C_New_Orleans%2C_1977.jpg"}], "n3": [{"src": "photos/n3.jpg", "k": 0, "n": 3, "c": "Photo: Diego Delso (CC BY-SA 3.0)", "s": "https://commons.wikimedia.org/wiki/File%3AFrench_Market%2C_New_Orleans%2C_USA1.jpg"}, {"src": "photos/n3.jpg", "k": 1, "n": 3, "c": "Photo: Gary J. Wood (CC BY-SA 2.0)", "s": "https://commons.wikimedia.org/wiki/File%3AFrench_Market_Stalls_-_New_Orleans_July_2011.jpg"}, {"src": "photos/n3.jpg", "k": 2, "n": 3, "c": "Photo: Derek Bridges (CC BY 2.0)", "s": "https://commons.wikimedia.org/wiki/File%3AFrench_Market_arch_New_Orleans_May_2009.jpg"}], "n4": [{"src": "photos/n4.jpg", "k": 0, "n": 3, "c": "Photo: Paul Lowry (CC BY 2.0)", "s": "https://commons.wikimedia.org/wiki/File%3ACentral_Grocery%2C_New_Orleans_-_Home_of_the_Original_Muffuletta_-_July_2008.jpg"}, {"src": "photos/n4.jpg", "k": 1, "n": 3, "c": "Photo: fw_gadget (CC BY-SA 2.0)", "s": "https://commons.wikimedia.org/wiki/File%3AMuffuletta_and_Barq%27s.jpg"}, {"src": "photos/n4.jpg", "k": 2, "n": 3, "c": "Photo: dsb nola (CC BY 2.0)", "s": "https://commons.wikimedia.org/wiki/File%3ACentral_Grocery_Muffuletta_and_Zapps_Aug_2012.jpg"}], "n5": [{"src": "photos/n5.jpg", "k": 0, "n": 3, "c": "Photo: ironypoisoning (CC BY-SA 2.0)", "s": "https://commons.wikimedia.org/wiki/File%3AEntrance_to_the_National_WWII_Museum_New_Orleans_Dec_2015.jpg"}, {"src": "photos/n5.jpg", "k": 1, "n": 3, "c": "Photo: Olivier Bruchez (CC BY-SA 2.0)", "s": "https://commons.wikimedia.org/wiki/File%3AThe_National_WWII_Museum%2C_New_Orleans_-_Home_Front_Exhibit_-_Kitchen.jpg"}, {"src": "photos/n5.jpg", "k": 2, "n": 3, "c": "Photo: Jim Bahn (CC BY 2.0)", "s": "https://commons.wikimedia.org/wiki/File%3AWWII_museum_New_Orleans_June_2021_-_03.jpg"}], "n6": [{"src": "photos/n6.jpg", "k": 0, "n": 3, "c": "Photo: Cory Doctorow (CC BY-SA 2.0)", "s": "https://commons.wikimedia.org/wiki/File%3APreservation_Hall%2C_French_Quarter%2C_New_Orleans%2C_Louisiana%2C_USA_January_2023.jpg"}, {"src": "photos/n6.jpg", "k": 1, "n": 3, "c": "Photo: holga_new_orleans (CC BY 2.0)", "s": "https://commons.wikimedia.org/wiki/File%3APreservation_Hall_Jazz_band_New_Orleans_July_2008_01.jpg"}, {"src": "photos/n6.jpg", "k": 2, "n": 3, "c": "Photo: Daquella manera (CC0)", "s": "https://commons.wikimedia.org/wiki/File%3APreservation_Hall_-_interior%2C_July_2023.jpg"}], "n7": [{"src": "photos/n7.jpg", "k": 0, "n": 3, "c": "Photo: Jeremy Thompson (CC BY 4.0)", "s": "https://commons.wikimedia.org/wiki/File%3AFrenchmen_Street%2C_New_Orleans%2C_November_2025_-_600_block_at_night.jpg"}, {"src": "photos/n7.jpg", "k": 1, "n": 3, "c": "Photo: Infrogmation of New Orleans (CC BY 2.0)", "s": "https://commons.wikimedia.org/wiki/File%3ANew_Orleans_-_Live_music_on_Frenchmen_Street.jpg"}, {"src": "photos/n7.jpg", "k": 2, "n": 3, "c": "Photo: Lisa Loving (CC BY-SA 2.0)", "s": "https://commons.wikimedia.org/wiki/File%3AStreet_musician%2C_Frenchmen_Street%2C_New_Orleans_-_Sousaphone.jpg"}], "n8": [{"src": "photos/n8.jpg", "k": 0, "n": 3, "c": "Photo: pelican (CC BY-SA 2.0)", "s": "https://commons.wikimedia.org/wiki/File%3ABourbon_Street_at_night%2C_New_Orleans%2C_16_January_2025.jpg"}, {"src": "photos/n8.jpg", "k": 1, "n": 3, "c": "Photo: Infrogmation (CC BY-SA 4.0)", "s": "https://commons.wikimedia.org/wiki/File%3ANight_on_Bourbon_Street%2CNew_Orleans%2C_%2C_17_July_2016_-_1.jpg"}, {"src": "photos/n8.jpg", "k": 2, "n": 3, "c": "Photo: Diego Delso (CC BY-SA 3.0)", "s": "https://commons.wikimedia.org/wiki/File%3ABourbon_St%2C_French_Quarter%2C_New_Orleans%2C_USA2.jpg"}], "n9": [{"src": "photos/n9.jpg", "k": 0, "n": 3, "c": "Photo: Infrogmation (CC BY-SA 4.0)", "s": "https://commons.wikimedia.org/wiki/File%3ASt_Charles_Avenue_Uptown_New_Orleans_with_streetcar_460%2C_December_2024.jpg"}, {"src": "photos/n9.jpg", "k": 1, "n": 3, "c": "Photo: Infrogmation of New Orleans (CC BY-SA 4.0)", "s": "https://commons.wikimedia.org/wiki/File%3ASt_Charles_Streetcar_line%2C_New_Orleans%2C_6_Oct_2022_-_Car_963.jpg"}, {"src": "photos/n9.jpg", "k": 2, "n": 3, "c": "Photo: Infrogmation of New Orleans (CC BY-SA 4.0)", "s": "https://commons.wikimedia.org/wiki/File%3ASt_Charles_Avenue_at_Foucher_with_streetcar%2C_New_Orleans_Sept_2022.jpg"}], "r10": [{"src": "photos/r10.jpg", "k": 0, "n": 3, "c": "Photo: stoicshot (CC BY 2.0)", "s": "https://commons.wikimedia.org/wiki/File%3AUSS_Kidd_at_sunset%2C_Baton_Rouge%2C_Louisiana.jpg"}, {"src": "photos/r10.jpg", "k": 1, "n": 3, "c": "Photo: DiscoA340 (CC BY-SA 4.0)", "s": "https://commons.wikimedia.org/wiki/File%3AUSS_Kidd_at_the_USS_KIDD_Veterans_Museum_2018.jpg"}, {"src": "photos/r10.jpg", "k": 2, "n": 3, "c": "Photo: PicsOfShipsAndOrPlan (CC BY-SA 4.0)", "s": "https://commons.wikimedia.org/wiki/File%3AUSSKiddFromObTower.jpg"}], "r2": [{"src": "photos/r2.jpg", "k": 0, "n": 3, "c": "Photo: Infrogmation of New Orleans (CC BY-SA 4.0)", "s": "https://commons.wikimedia.org/wiki/File%3ALafayette_Louisiana_4_November_2017_26.jpg"}, {"src": "photos/r2.jpg", "k": 1, "n": 3, "c": "Photo: Infrogmation of New Orleans (CC BY-SA 4.0)", "s": "https://commons.wikimedia.org/wiki/File%3ALafayette_Louisiana_4_November_2017_-_Bread_Pudding.jpg"}, {"src": "photos/r2.jpg", "k": 2, "n": 3, "c": "Photo: Infrogmation of New Orleans (CC BY-SA 4.0)", "s": "https://commons.wikimedia.org/wiki/File%3ALafayette_Louisiana_4_November_2017_28.jpg"}], "r3": [{"src": "photos/r3.jpg", "k": 0, "n": 2, "c": "Photo: Pierre5018 (CC BY-SA 4.0)", "s": "https://commons.wikimedia.org/wiki/File%3ALake_Martin_LA_USA_cypress_1.JPG"}, {"src": "photos/r3.jpg", "k": 1, "n": 2, "c": "Photo: Pierre5018 (CC BY-SA 4.0)", "s": "https://commons.wikimedia.org/wiki/File%3ALake_Martin_LA_USA_cypress_2.JPG"}], "r4": [{"src": "photos/r4.jpg", "k": 0, "n": 1, "c": "Atchafalaya swamp tour, another operator · Photo: Tobin (CC BY-SA 2.0)", "s": "https://commons.wikimedia.org/wiki/File%3ASwamp_tour_with_Ernest_Couret.jpg"}], "r6": [{"src": "photos/r6.jpg", "k": 0, "n": 3, "c": "Photo: NatalieMaynor (CC BY 2.0)", "s": "https://commons.wikimedia.org/wiki/File%3AVermilionville_Historic_Village_Park%2C_Louisiana_2020.jpg"}, {"src": "photos/r6.jpg", "k": 1, "n": 3, "c": "Photo: gsloan (CC BY 2.0)", "s": "https://commons.wikimedia.org/wiki/File:Wood_workshop_in_Vermilionville.jpg"}, {"src": "photos/r6.jpg", "k": 2, "n": 3, "c": "Photo: Raúl Santos de la Cámara (CC BY-SA 2.0)", "s": "https://commons.wikimedia.org/wiki/File%3AButternut_Hickory_-_Vermilionville.jpg"}], "r7": [{"src": "photos/r7.jpg", "k": 0, "n": 2, "c": "Photo: Jan Kronsell (CC BY-SA 3.0)", "s": "https://commons.wikimedia.org/wiki/File%3ATabasco_HQ_and_Factory.jpg"}, {"src": "photos/r7.jpg", "k": 1, "n": 2, "c": "Photo: Shane K. Bernard Skb8721 (CC BY-SA 3.0)", "s": "https://commons.wikimedia.org/wiki/File%3ATabasco_Sauce_at_the_McIlhenny_Tabasco_Factory%2C_Avery_Island%2C_Louisiana.jpg"}], "r8": [{"src": "photos/r8.jpg", "k": 0, "n": 3, "c": "Photo: Chrismiceli (CC0)", "s": "https://commons.wikimedia.org/wiki/File%3ALouisiana_State_Capitol_Building.jpg"}, {"src": "photos/r8.jpg", "k": 1, "n": 3, "c": "Photo: Spatms (CC BY-SA 4.0)", "s": "https://commons.wikimedia.org/wiki/File%3AMississippi_River_at_Baton_Rouge%2C_Louisiana_from_Louisiana_State_Capitol_Observation_Deck.jpg"}, {"src": "photos/r8.jpg", "k": 2, "n": 3, "c": "Photo: Paul Lowry (CC BY 2.0)", "s": "https://commons.wikimedia.org/wiki/File%3AThe_Louisiana_State_Capitol%2C_Baton_Rouge%2C_July_2008.jpg"}], "r9": [{"src": "photos/r9.jpg", "k": 0, "n": 3, "c": "Photo: Mark Pellegrini (Raul654) (CC BY-SA 2.5)", "s": "https://commons.wikimedia.org/wiki/File%3AMike_the_Tiger_Habitat%2C_LSU_mascot%2C_MP_-_1.jpg"}, {"src": "photos/r9.jpg", "k": 1, "n": 3, "c": "Photo: Mark Pellegrini (Raul654) (CC BY-SA 2.5)", "s": "https://commons.wikimedia.org/wiki/File%3AMP_-_LSU_mascot_3.jpg"}, {"src": "photos/r9.jpg", "k": 2, "n": 3, "c": "Photo: davidpinter (CC BY 3.0)", "s": "https://commons.wikimedia.org/wiki/File%3ATiger_Stadium_from_campus%2C_Louisiana_State_University%2C_Baton_Rouge%2C_Louisiana-2014_%28panoramio%29.jpg"}], "d1": [{"src": "photos/d1.jpg", "k": 0, "n": 3, "c": "Photo: Ken Lund (CC BY-SA 2.0)", "s": "https://commons.wikimedia.org/wiki/File%3ABarataria_Preserve%2C_Jean_Lafitte_National_Historical_Park_and_Preserve%2C_Louisiana.jpg"}, {"src": "photos/d1.jpg", "k": 1, "n": 3, "c": "Photo: Jim Bahn (CC BY 2.0)", "s": "https://commons.wikimedia.org/wiki/File%3AJean_Lafitte_Park_Barataria_Preserve%2C_June_2021_-_Boardwalk.jpg"}, {"src": "photos/d1.jpg", "k": 2, "n": 3, "c": "Photo: Ken Lund (CC BY-SA 2.0)", "s": "https://commons.wikimedia.org/wiki/File%3ABarataria_Preserve%2C_Jean_Lafitte_National_Historical_Park_and_Preserve%2C_Louisiana_%2836%29.jpg"}], "d2": [{"src": "photos/d2.jpg", "k": 0, "n": 1, "c": "Photo: Hal Kent (CC BY 2.0)", "s": "https://commons.wikimedia.org/wiki/File%3ABayou_Segnette_State_Park.jpg"}], "d3": [{"src": "photos/d3.jpg", "k": 0, "n": 3, "c": "Photo: Daniel Lobo (CC0)", "s": "https://commons.wikimedia.org/wiki/File%3AHoney_Island_Swamp_Tour%2C_Louisiana_July_2023_-_4.jpg"}, {"src": "photos/d3.jpg", "k": 1, "n": 3, "c": "Photo: Tioga Pass (CC0)", "s": "https://commons.wikimedia.org/wiki/File%3AHoney_Island_Swamp%2C_Louisiana_-_Happy_Gator%2C_August_2024.jpg"}, {"src": "photos/d3.jpg", "k": 2, "n": 3, "c": "Photo: M. Gaylard (mgaylard.co.uk) (CC BY 2.0)", "s": "https://commons.wikimedia.org/wiki/File%3AHoney_Island_Swamp_Tour%2C_Louisiana_USA%2C_18_September_2018_-_07.jpg"}], "d5": [{"src": "photos/d5.jpg", "k": 0, "n": 1, "c": "Photo: GypsyLady122 (CC BY-SA 4.0)", "s": "https://commons.wikimedia.org/wiki/File%3AManchac_Louisiana.jpg"}], "d7": [{"src": "photos/d7.jpg", "k": 0, "n": 3, "c": "Photo: Adventure George (CC BY 2.0)", "s": "https://commons.wikimedia.org/wiki/File%3A05_The_Whitney_Plantation_The_Big_House_-_From_The_Front_%2832447527390%29.jpg"}, {"src": "photos/d7.jpg", "k": 1, "n": 3, "c": "Photo: Carol M. Highsmith (Public domain)", "s": "https://commons.wikimedia.org/wiki/File%3ADetached_Kitchen_at_Whitney_Plantation%2C_Louisiana.jpg"}, {"src": "photos/d7.jpg", "k": 2, "n": 3, "c": "Photo: Jeremy Thompson (CC BY 2.0)", "s": "https://commons.wikimedia.org/wiki/File%3AWhitney_Plantation%2C_June_2023_-_Tree_lined_path.jpg"}], "d8": [{"src": "photos/d8.jpg", "k": 0, "n": 3, "c": "Photo: Kathy Jantz (CC BY 4.0)", "s": "https://commons.wikimedia.org/wiki/File%3AOak_Alley_Plantation_House%2C_Louisiana%2C_18_January_2026.jpg"}, {"src": "photos/d8.jpg", "k": 1, "n": 3, "c": "Photo: Alison Phillips (Public domain)", "s": "https://commons.wikimedia.org/wiki/File%3AOakAlleyTreeacp.jpg"}, {"src": "photos/d8.jpg", "k": 2, "n": 3, "c": "Photo: ZeWrestler (CC BY-SA 3.0)", "s": "https://commons.wikimedia.org/wiki/File%3AOak_Alley_-_View_From_Road.JPG"}], "d9": [{"src": "photos/d9.jpg", "k": 0, "n": 3, "c": "Photo: Mark Holloway (CC BY 2.0)", "s": "https://commons.wikimedia.org/wiki/File%3AFontainebleau_State_Park%2C_Louisiana_2019_01.jpg"}, {"src": "photos/d9.jpg", "k": 1, "n": 3, "c": "Photo: Mark Holloway (CC BY 2.0)", "s": "https://commons.wikimedia.org/wiki/File%3AFontainebleau_State_Park%2C_Louisiana_2019_04.jpg"}, {"src": "photos/d9.jpg", "k": 2, "n": 3, "c": "Photo: Mark Holloway (CC BY 2.0)", "s": "https://commons.wikimedia.org/wiki/File%3AFontainebleau_State_Park%2C_Louisiana_2019_07.jpg"}], "d11": [{"src": "photos/d11.jpg", "k": 0, "n": 2, "c": "Photo: Unknown photographer (Wikimedia Commons) (Public domain)", "s": "https://commons.wikimedia.org/wiki/File%3ATammany_Trace_in_Mandeville_Louisiana_June_2007.jpg"}, {"src": "photos/d11.jpg", "k": 1, "n": 2, "c": "Photo: GreaterPonce665 (CC BY-SA 4.0)", "s": "https://commons.wikimedia.org/wiki/File%3AAbita_Springs_Trailhead_Museum_Beer_Plaza_%28June_2021%29.jpg"}], "d12": [{"src": "photos/d12.jpg", "k": 0, "n": 3, "c": "Photo: Stockstill, Tiffany (CC BY-SA 4.0)", "s": "https://commons.wikimedia.org/wiki/File%3AAbita_Mystery_House_Museum.jpg"}, {"src": "photos/d12.jpg", "k": 1, "n": 3, "c": "Photo: Infrogmation of New Orleans (CC BY-SA 3.0)", "s": "https://commons.wikimedia.org/wiki/File%3AUCMFrontAbitaSpringsMarch2009.JPG"}, {"src": "photos/d12.jpg", "k": 2, "n": 3, "c": "Photo: Infrogmation of New Orleans (CC BY 2.0)", "s": "https://commons.wikimedia.org/wiki/File%3AAmazing_Bassigator_-_Abita_Springs_Louisiana_2009.jpg"}], "d13": [{"src": "photos/d13.jpg", "k": 0, "n": 2, "c": "Photo: Vegasjon (CC BY-SA 3.0)", "s": "https://commons.wikimedia.org/wiki/File%3AReticulated_giraffe.jpg"}, {"src": "photos/d13.jpg", "k": 1, "n": 2, "c": "Photo: Vegasjon (CC BY-SA 3.0)", "s": "https://commons.wikimedia.org/wiki/File%3AGrant%27s_Zebra.jpg"}], "d14": [{"src": "photos/d14.jpg", "k": 0, "n": 3, "c": "Photo: getmahesh (CC BY-SA 2.0)", "s": "https://commons.wikimedia.org/wiki/File%3ALouisiana_Renaissance_Festival_Mounted_Knight.jpg"}, {"src": "photos/d14.jpg", "k": 1, "n": 3, "c": "Photo: getmahesh (CC BY-SA 2.0)", "s": "https://commons.wikimedia.org/wiki/File%3ALouisiana_Renaissance_Festival_Guitarist.jpg"}, {"src": "photos/d14.jpg", "k": 2, "n": 3, "c": "Photo: getmahesh (CC BY-SA 2.0)", "s": "https://commons.wikimedia.org/wiki/File%3ALouisiana_Renaissance_Festival_Around_the_Bench.jpg"}], "d15": [{"src": "photos/d15.jpg", "k": 0, "n": 3, "c": "Photo: Carol M. Highsmith (Public domain)", "s": "https://commons.wikimedia.org/wiki/File%3ABeach_homes_along_the_Gulf_of_Mexico_in_Bay_St._Louis%2C_Mississippi_2016.jpg"}, {"src": "photos/d15.jpg", "k": 1, "n": 3, "c": "Photo: Anably (CC BY-SA 4.0)", "s": "https://commons.wikimedia.org/wiki/File%3AFront_Beach%2C_Ocean_Springs%2C_Mississippi.jpg"}, {"src": "photos/d15.jpg", "k": 2, "n": 3, "c": "Photo: Anably (CC BY-SA 4.0)", "s": "https://commons.wikimedia.org/wiki/File%3ASunset_at_East_Beach_in_Ocean_Springs%2C_Mississippi.jpg"}]};
+let photos=STATIC_PHOTOS; let assetsNS=null; let canUpload=false; let pendingItem=null;
+const HEX=/^[0-9a-f]{32}$/;
+function imgTag(p,alt,lazy){
+  const L2=lazy?' loading="lazy"':''; const SRC=p.src?esc(p.src):'/_blob/'+p.a;
+  if(p.n>1){ const n=p.n|0,k=p.k|0; return `<img class="spr" src="${SRC}" alt="${esc(alt)}"${L2} style="width:${n*100}%;transform:translateX(-${(k*100/n).toFixed(4)}%)">`; }
+  return `<img src="${SRC}" alt="${esc(alt)}"${L2}>`;
+}
+function gallery(id){
+  const list=photos[id]||[];
+  const add=canUpload?`<button class="addp${list.length?" tile":""}" data-act="addp">＋ ${esc(L().addPhoto)}</button>`:"";
+  if(!list.length) return add?`<div class="nophoto">${add}</div>`:"";
+  return `<div class="gal">`+list.map((p,i)=>`<button class="ph" data-act="zoom" data-i="${i}" aria-label="${esc(nm(it(id)))} ${i+1}">${imgTag(p,nm(it(id)),true)}${p.c?`<span class="cr">${esc(p.c)}</span>`:""}</button>`).join("")+add+`</div>`+(list.length>1?`<div class="swipe">${esc(L().swipe(list.length))}</div>`:"");
+}
+function details(x){
+  const d=INFO[x[0]]; const z=lang==="zh";
+  if(!d) return `<p class="desc">${esc(z?x[8]:x[7])}</p>`;
+  return (d[6]?`<div class="say"><b>${esc(L().sayIt)}</b> ${esc(d[6])}</div>`:"")+
+    `<div class="sec"><h4>${esc(L().what)}</h4><p>${esc(z?d[3]:d[0])}</p></div>`+
+    `<div class="sec"><h4>${esc(L().why)}</h4><p>${esc(z?d[4]:d[1])}</p></div>`+
+    `<div class="sec"><h4>${esc(L().tips)}</h4><p>${esc(z?d[5]:d[2])}</p></div>`;
+}
+function links(x,q){
+  const md=MEDIA[x[0]]||{};
+  const ext='target="_blank" rel="noopener"';
+  const v=md.v||("https://www.youtube.com/results?search_query="+encodeURIComponent(x[9]+" tour"));
+  const w=md.w||("https://www.google.com/search?q="+encodeURIComponent(x[9]+" official site"));
+  return `<a href="https://www.google.com/search?tbm=isch&q=${q}" ${ext}><span class="i">📷</span>${esc(L().photos)}</a>`+
+    `<a class="${md.v?"cur":""}" href="${esc(v)}" ${ext}><span class="i">▶️</span>${esc(md.v?L().watch:L().videos)}</a>`+
+    `<a class="${md.w?"cur":""}" href="${esc(w)}" ${ext}><span class="i">🌐</span>${esc(md.w?L().site:L().searchWeb)}</a>`+
+    `<a href="https://www.google.com/maps/search/?api=1&query=${q}" ${ext}><span class="i">📍</span>${esc(L().map)}</a>`;
+}
+function card(x){
+  const id=x[0], r=mine.ratings[id]||{};
+  const cls = r.v===1?"v1":r.v===0?"v0":r.v===-1?"vm":"";
+  const othersRated = voters().filter(v=>v.id!=="me" && hasRating(v.ratings[id]));
+  let oHtml="";
+  if(othersRated.length){
+    if(hasRating(r)){
+      oHtml = othersRated.map(v=>{const o=v.ratings[id]; return `<div><b>${esc(whoName(v.who))}</b> ${mark(o)}${o.n?` “${esc(o.n)}”`:""}</div>`;}).join("");
+    } else oHtml = `<div>${esc(L().hidden(othersRated.length))}</div>`;
+  }
+  const tag = x[10] ? `<span class="pill tag">${esc(TAGS[x[10]][lang==="zh"?1:0])}</span>` : "";
+  const q = encodeURIComponent(x[9]);
+  return `<article class="item ${cls}" data-id="${id}">
+    ${gallery(id)}
+    <h3>${esc(nm(x))}</h3>
+    <div class="meta"><span class="pill">${esc(CATS[x[2]][lang==="zh"?1:0])}</span><span class="pill">${esc(tTime(x[4]))}</span><span class="pill">${esc(PRICE[x[3]][lang==="zh"?1:0])}</span>${tag}</div>
+    ${details(x)}
+    <div class="links">${links(x,q)}</div>
+    <div class="acts">
+      <div class="votes" role="group">
+        <button class="vb" data-act="vote" data-v="1" aria-pressed="${r.v===1}"><span class="e">👍</span>${esc(L().want)}</button>
+        <button class="vb" data-act="vote" data-v="0" aria-pressed="${r.v===0}"><span class="e side">👍</span>${esc(L().maybe)}</button>
+        <button class="vb" data-act="vote" data-v="-1" aria-pressed="${r.v===-1}"><span class="e">👎</span>${esc(L().skip)}</button>
+      </div>
+      <button class="sb" data-act="star" aria-pressed="${!!r.s}"><span class="e">★</span>${esc(L().must)}</button>
+    </div>
+    <input class="note" data-act="note" maxlength="200" placeholder="${esc(L().note)}" value="${esc(r.n||"")}">
+    <div class="foot"><div class="others">${oHtml}</div></div>
+  </article>`;
+}
+function renderList(){
+  const sec=SECS[tab];
+  const items=ITEMS.filter(x=>x[1]===tab);
+  const done=items.filter(x=>{const r=mine.ratings[x[0]];return r&&(r.v===1||r.v===0||r.v===-1);}).length;
+  let shown=items;
+  if(onlyUnrated) shown=items.filter(x=>{const r=mine.ratings[x[0]];return !(r&&(r.v===1||r.v===0||r.v===-1));});
+  let html = `<div class="sechead">${tiles(lang==="zh"?sec.zh:sec.en)}</div>
+    <p class="sub">${esc(lang==="zh"?sec.sub_zh:sec.sub_en)}</p>
+    <div class="toolbar"><span>${esc(L().rated(done,items.length))}</span>
+      <label class="toggle"><input type="checkbox" id="unratedToggle" ${onlyUnrated?"checked":""}>${esc(L().unrated)}</label></div>`;
+  html += shown.length ? shown.map(card).join("") : `<div class="empty">${esc(L().allDone)}</div>`;
+  html += `<p class="legend">${esc(L().curNote)}</p><p class="legend">${esc(L().hours)}</p><p class="legend">${esc(L().legend)}</p>`;
+  return html;
+}
+
+/* ---------- results ---------- */
+function scoreOf(id){
+  let sc=0,up=0,down=0,stars=[];
+  voters().forEach(v=>{const r=v.ratings[id]; if(!r)return;
+    if(r.v===1){sc+=2;up++;} else if(r.v===0){sc+=1;} else if(r.v===-1){sc-=2;down++;}
+    if(r.s){sc+=2;stars.push(v.who);} });
+  return {sc,up,down,stars};
+}
+function whoLine(id){
+  return voters().filter(v=>hasRating(v.ratings[id])).map(v=>{const r=v.ratings[id];return `${esc(whoName(v.who))} ${mark(r)}${r.n?` “${esc(r.n)}”`:""}`;}).join("　");
+}
+function renderResults(){
+  const vs=voters();
+  let html=`<div class="sechead">${tiles(lang==="zh"?SECS.res.zh:SECS.res.en)}</div><div class="res">`;
+  html+=`<h2>${esc(L().progress)}</h2><div class="prog">`+vs.map(v=>{
+    const n=ITEMS.filter(x=>{const r=v.ratings[x[0]];return r&&(r.v===1||r.v===0||r.v===-1);}).length;
+    return `<div class="line"><b>${esc(whoName(v.who))}</b>　${n} ${esc(L().of)} ${ITEMS.length}<div class="bar"><i style="width:${Math.round(n/ITEMS.length*100)}%"></i></div></div>`;
+  }).join("")+`</div>`;
+  const scored=ITEMS.map(x=>({x,...scoreOf(x[0])})).filter(o=>vs.some(v=>hasRating(v.ratings[o.x[0]])));
+  const block=(title,arr)=>`<h2>${esc(title)}</h2>`+(arr.length?arr.map(o=>`<div class="line"><b>${esc(nm(o.x))}</b> <span style="color:var(--muted)">(${esc(L().score)} ${o.sc})</span><div class="who">${whoLine(o.x[0])}</div></div>`).join(""):`<p class="sub">${esc(L().none)}</p>`);
+  html+=block(L().mustH, scored.filter(o=>o.stars.length).sort((a,b)=>b.sc-a.sc));
+  html+=block(L().topH, scored.filter(o=>o.sc>0&&!o.stars.length).sort((a,b)=>b.sc-a.sc).slice(0,15));
+  html+=block(L().splitH, scored.filter(o=>o.up&&o.down));
+  html+=block(L().skipH, scored.filter(o=>o.sc<0&&!o.up));
+  html+=`<h2>${esc(L().exportH)}</h2><p class="sub">${esc(L().exportHelp)}${mode==="sync"?"":" "+esc(L().exportLocal)}</p>
+    <button class="primary" id="copyBtn">${esc(L().copy)}</button><div class="copied" id="copied" aria-live="polite"></div>
+    <textarea class="export" id="exportText" readonly>${esc(buildExport())}</textarea></div>`;
+  return html;
+}
+function buildExport(){
+  const vs=voters();
+  const rated = v=>ITEMS.filter(x=>{const r=v.ratings[x[0]];return r&&(r.v===1||r.v===0||r.v===-1);}).length;
+  const d=new Date();
+  let out=`NOLA TRIP VOTES (exported ${d.toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"})})\n`;
+  out+=`Trip: Nov 21–27, Houston to New Orleans by car\n`;
+  out+=`Key: UP = want to go, SIDE = maybe, DOWN = skip, *MUST* = must-do. Score: up +2, side +1, down −2, must-do +2.\n`;
+  out+=`Voters: `+vs.map(v=>`${whoEn(v.who)} (${rated(v)}/${ITEMS.length} rated)`).join(", ")+(mode==="sync"?"":" [sync off: this phone only]")+`\n`;
+  const word=r=>r.v===1?"UP":r.v===0?"SIDE":r.v===-1?"DOWN":"no vote";
+  const untouched=[];
+  ["r","n","d"].forEach(s=>{
+    const head={r:"ON THE WAY (I-10, Houston to NOLA)",n:"IN NEW ORLEANS",d:"DAY TRIPS FROM NOLA"}[s];
+    const lines=[];
+    ITEMS.filter(x=>x[1]===s).map(x=>({x,...scoreOf(x[0])})).sort((a,b)=>b.sc-a.sc).forEach(o=>{
+      const parts=vs.filter(v=>hasRating(v.ratings[o.x[0]])).map(v=>{const r=v.ratings[o.x[0]];return `${whoEn(v.who)}: ${word(r)}${r.s?" *MUST*":""}${r.n?` (note: "${r.n.replace(/\s+/g," ").trim()}")`:""}`;});
+      if(!parts.length){untouched.push(o.x[5]);return;}
+      lines.push(`- ${o.x[5]} [score ${o.sc}] ${parts.join("; ")}${o.x[10]?` [${TAGS[o.x[10]][0]}]`:""}`);
+    });
+    out+=`\n## ${head}\n`+(lines.length?lines.join("\n"):"- (no votes yet)")+`\n`;
+  });
+  if(untouched.length) out+=`\n## NOT RATED BY ANYONE\n- `+untouched.join("\n- ")+`\n`;
+  return out;
+}
+
+/* ---------- render ---------- */
+function render(){
+  pendingRender=false;
+  renderHeader();
+  document.getElementById("main").innerHTML = tab==="res" ? renderResults() : renderList();
+}
+function renderSoon(){
+  const a=document.activeElement;
+  if(a && a.classList && a.classList.contains("note")){ pendingRender=true; renderHeader(); return; }
+  render();
+}
+
+/* ---------- saving ---------- */
+let saveTimer=null,saving=false,again=false,retries=0;
+function touch(){ mine.t=Date.now(); LS.set("mine",mine); scheduleSave(); }
+function scheduleSave(){
+  if(!db||!uid||mode==="local") return;
+  clearTimeout(saveTimer); saveTimer=setTimeout(doSave,700);
+}
+async function doSave(){
+  if(saving){again=true;return;}
+  saving=true;
+  try{
+    await db.doc("votes/"+uid).set({who:mine.who||"",ratings:JSON.parse(JSON.stringify(mine.ratings)),t:mine.t||Date.now()});
+    retries=0;
+  }catch(e){
+    const c=e&&e.code;
+    if(c==="unavailable"&&retries<1){retries++;saving=false;setTimeout(doSave,1200+Math.random()*1200);return;}
+    setMode("local");
+  }
+  saving=false;
+  if(again){again=false;doSave();}
+}
+function setMode(m){ mode=m; renderHeader(); if(tab==="res") renderSoon(); }
+
+/* ---------- events ---------- */
+document.getElementById("tabs").addEventListener("click",e=>{
+  const b=e.target.closest("[data-tab]"); if(!b) return;
+  tab=b.dataset.tab; LS.set("tab",tab); render(); window.scrollTo(0,0);
+});
+document.getElementById("langBtn").addEventListener("click",()=>{ lang=lang==="en"?"zh":"en"; LS.set("lang",lang); render(); fillSheet(); });
+document.getElementById("whoBtn").addEventListener("click",openSheet);
+const main=document.getElementById("main");
+main.addEventListener("click",e=>{
+  const b=e.target.closest("button[data-act]"); if(!b) return;
+  const id=b.closest(".item").dataset.id;
+  if(b.dataset.act==="zoom"){ openZoom(id,Number(b.dataset.i)); return; }
+  if(b.dataset.act==="addp"){ pendingItem=id; document.getElementById("fileIn").click(); return; }
+  const r=Object.assign({},mine.ratings[id]||{});
+  if(b.dataset.act==="vote"){ const v=Number(b.dataset.v); if(r.v===v) delete r.v; else r.v=v; }
+  if(b.dataset.act==="star"){ r.s=!r.s; if(r.s&&r.v===undefined) r.v=1; }
+  if(r.v===undefined&&!r.s&&!r.n) delete mine.ratings[id]; else mine.ratings[id]=r;
+  touch();
+  const art=b.closest(".item"); const tmp=document.createElement("div"); tmp.innerHTML=card(it(id)); art.replaceWith(tmp.firstElementChild);
+  const tb=main.querySelector(".toolbar span"); if(tb){const items=ITEMS.filter(x=>x[1]===tab);tb.textContent=L().rated(items.filter(x=>{const q=mine.ratings[x[0]];return q&&(q.v===1||q.v===0||q.v===-1);}).length,items.length);}
+});
+let noteTimer=null;
+main.addEventListener("input",e=>{
+  if(e.target.classList.contains("note")){
+    const id=e.target.closest(".item").dataset.id;
+    const r=Object.assign({},mine.ratings[id]||{}); r.n=e.target.value.slice(0,200);
+    if(!r.n) delete r.n;
+    if(r.v===undefined&&!r.s&&!r.n) delete mine.ratings[id]; else mine.ratings[id]=r;
+    clearTimeout(noteTimer); noteTimer=setTimeout(touch,500);
+  }
+});
+main.addEventListener("change",e=>{ if(e.target.id==="unratedToggle"){ onlyUnrated=e.target.checked; render(); } });
+main.addEventListener("focusout",e=>{ if(e.target.classList&&e.target.classList.contains("note")){ clearTimeout(noteTimer); touch(); if(pendingRender) setTimeout(()=>{ if(!(document.activeElement&&document.activeElement.classList.contains("note"))) render(); },50);} });
+main.addEventListener("click",async e=>{
+  if(e.target.id!=="copyBtn") return;
+  const txt=buildExport(); const ta=document.getElementById("exportText"); ta.value=txt;
+  const msg=document.getElementById("copied");
+  try{ await navigator.clipboard.writeText(txt); msg.textContent=L().copied; }
+  catch(err){ try{ ta.focus(); ta.select(); const ok=document.execCommand("copy"); msg.textContent= ok?L().copied:L().copyFail; }catch(e2){ msg.textContent=L().copyFail; } }
+});
+
+/* ---------- who sheet ---------- */
+function fillSheet(){
+  document.getElementById("sheetTitle").textContent=L().sheetTitle;
+  document.getElementById("sheetSub").textContent=L().sheetSub;
+  document.getElementById("whos").innerHTML=Object.keys(WHO).map(k=>`<button data-who="${k}">${esc(whoName(k))}</button>`).join("");
+  document.getElementById("otherName").placeholder=L().otherPh;
+  document.getElementById("otherGo").textContent=L().otherGo;
+}
+function openSheet(){ fillSheet(); document.getElementById("sheet").hidden=false; }
+function setWho(w){ mine.who=w; touch(); document.getElementById("sheet").hidden=true; render(); }
+document.getElementById("whos").addEventListener("click",e=>{ const b=e.target.closest("[data-who]"); if(b) setWho(b.dataset.who); });
+document.getElementById("otherGo").addEventListener("click",()=>{ const v=document.getElementById("otherName").value.trim(); if(v) setWho(v.slice(0,24)); });
+document.getElementById("sheet").addEventListener("click",e=>{ if(e.target.id==="sheet"&&mine.who) e.currentTarget.hidden=true; });
+
+/* ---------- photos ---------- */
+let zItem=null,zIdx=0,toastT=null;
+function toast(m){const t=document.getElementById("toast");t.textContent=m;t.hidden=false;clearTimeout(toastT);toastT=setTimeout(()=>{t.hidden=true;},2600);}
+function showZoom(){
+  const list=photos[zItem]||[]; if(!list.length){closeZoom();return;}
+  zIdx=(zIdx+list.length)%list.length; const p=list[zIdx];
+  document.getElementById("zBox").innerHTML = p.n>1 ? `<div class="zsp">${imgTag(p,nm(it(zItem)),false)}</div>` : imgTag(p,nm(it(zItem)),false).replace("<img ","<img class=\"zsingle\" ");
+  const src=(typeof p.s==="string"&&/^https?:\/\//.test(p.s))?` · <a href="${esc(p.s)}" target="_blank" rel="noopener">${esc(L().source)}</a>`:"";
+  document.getElementById("zCap").innerHTML=`<b>${esc(nm(it(zItem)))}</b> (${zIdx+1}/${list.length})${p.c?"<br>"+esc(p.c):""}${src}`;
+  document.getElementById("zClose").textContent=L().close;
+  const multi=list.length>1; document.getElementById("zPrev").hidden=!multi; document.getElementById("zNext").hidden=!multi;
+}
+function openZoom(id,i){zItem=id;zIdx=i;document.getElementById("zoom").hidden=false;showZoom();}
+function closeZoom(){document.getElementById("zoom").hidden=true;document.getElementById("zBox").innerHTML="";}
+document.getElementById("zClose").addEventListener("click",closeZoom);
+document.getElementById("zPrev").addEventListener("click",()=>{zIdx--;showZoom();});
+document.getElementById("zNext").addEventListener("click",()=>{zIdx++;showZoom();});
+document.getElementById("zBox").addEventListener("click",closeZoom);
+document.addEventListener("keydown",e=>{ if(document.getElementById("zoom").hidden) return; if(e.key==="Escape")closeZoom(); if(e.key==="ArrowLeft"){zIdx--;showZoom();} if(e.key==="ArrowRight"){zIdx++;showZoom();} });
+async function shrink(file){
+  const url=URL.createObjectURL(file);
+  try{
+    const img=await new Promise((res,rej)=>{const i=new Image();i.onload=()=>res(i);i.onerror=rej;i.src=url;});
+    const sc=Math.min(1,1400/Math.max(img.naturalWidth,img.naturalHeight));
+    const c=document.createElement("canvas"); c.width=Math.round(img.naturalWidth*sc); c.height=Math.round(img.naturalHeight*sc);
+    c.getContext("2d").drawImage(img,0,0,c.width,c.height);
+    return await new Promise(r=>c.toBlob(r,"image/jpeg",0.82));
+  } finally { URL.revokeObjectURL(url); }
+}
+document.getElementById("fileIn").addEventListener("change",async e=>{
+  const f=e.target.files&&e.target.files[0]; e.target.value=""; const id=pendingItem; pendingItem=null;
+  if(!f||!id||!assetsNS||!db) return;
+  toast(L().uploading);
+  try{
+    const blob=await shrink(f); if(!blob) throw new Error("resize");
+    const r=await assetsNS.upload(blob,{type:"image/jpeg"});
+    const list=(photos[id]||[]).slice(); list.push({a:r.id,c:mine.who?("Added by "+whoEn(mine.who)):"",s:""});
+    await db.doc("photos/"+id).set({list});
+    toast(L().uploaded);
+  }catch(err){ toast(L().uploadFail); }
+});
+
+/* ---------- shared sync ---------- */
+async function init(){
+  if(!window.claude||typeof window.claude.use!=="function"){ setMode("local"); return; }
+  const timer=setTimeout(()=>{ if(mode==="loading") setMode("stale"); },10000);
+  try{
+    const [d,u]=await Promise.all([window.claude.use("db"),window.claude.use("user")]);
+    if(!d||!u){ clearTimeout(timer); setMode("local"); return; }
+    const id=await u.id();
+    if(!id){ clearTimeout(timer); setMode("local"); return; }
+    db=d; uid=id;
+    db.collection("votes").onSnapshot(snap=>{
+      const o={}; let myRemote=null;
+      snap.docs.forEach(doc=>{ if(!doc.exists) return; const v=doc.data(); if(!v) return; if(doc.id===uid) myRemote=v; else o[doc.id]=v; });
+      others=o;
+      if(myRemote && (myRemote.t||0) > (mine.t||0)){
+        mine={who:myRemote.who||mine.who||"",ratings:JSON.parse(JSON.stringify(myRemote.ratings||{})),t:myRemote.t};
+        LS.set("mine",mine);
+        if(!mine.who) openSheet();
+      } else if(!snap.metadata.fromCache && (mine.t||0) > ((myRemote&&myRemote.t)||0)){
+        scheduleSave();
+      }
+      if(!snap.metadata.fromCache){ clearTimeout(timer); if(mode!=="local") mode="sync"; }
+      renderSoon();
+    }, ()=>{ clearTimeout(timer); setMode("local"); });
+    db.collection("photos").onSnapshot(snap=>{
+      const o={};
+      snap.docs.forEach(doc=>{ if(!doc.exists) return; const v=doc.data(); if(v&&Array.isArray(v.list)) o[doc.id]=v.list.filter(p=>p&&typeof p.a==="string"&&HEX.test(p.a)&&(p.n===undefined||(Number.isInteger(p.n)&&p.n>0&&p.n<=8&&Number.isInteger(p.k)&&p.k>=0&&p.k<p.n))); });
+      photos=o; renderSoon();
+    }, ()=>{});
+    window.claude.use("assets").then(a=>{ if(a){ assetsNS=a; canUpload=true; renderSoon(); } }).catch(()=>{});
+  }catch(e){ clearTimeout(timer); setMode("local"); }
+}
+
+render();
+if(!mine.who) openSheet();
+init();
+</script>
+</body>
+</html>
